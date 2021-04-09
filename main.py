@@ -56,7 +56,7 @@ def nuevaPregunta():
         return "Sitio para crear pregunta"
 
 # Si se quiere actualizar una pregunta
-@app.route('/preguntas/actualizar/<int:preg_id>', methods=['POST', 'PUT'])
+@app.route('/preguntas/actualizar/<int:preg_id>', methods=['POST', 'PUT', 'DELETE'])
 def actualizarPregunta(preg_id):
     # Por ahora busca la pregunta en el archivo
     if request.method == 'POST' or request.method == 'PUT':
@@ -71,7 +71,7 @@ def actualizarPregunta(preg_id):
             # Si encuentra el identificador devuelve el contenido de esa pregunta
             if pregunta['preg_id'] == preg_id:  
                 # Crea un objeto de pregunta a partir de esos datos
-                newPregunta = Pregunta(preg_id=preg_id, titulo=requestData['titulo'], contenido=requestData['texto'], tema=requestData['tema'], userid=requestData['user_id'], comments=pregunta['comments'])
+                newPregunta = Pregunta(preg_id=preg_id, titulo=requestData['titulo'], contenido=requestData['texto'], tema=requestData['tema'], userid=pregunta['userid'], comments=pregunta['comments'])
                 # Actualiza los datos en la base de datos o en el JSON (?)
                 with open("JSONData.json", "r+") as jsonFile:
                     data = json.load(jsonFile)
@@ -81,12 +81,8 @@ def actualizarPregunta(preg_id):
                     jsonFile.truncate()
                 # Muestra el objeto creado. Eventualmente, el objeto se añade a una cola de preguntas
                 return "Created object in DB with \n{}".format(newPregunta.toJSON())
-    else:
-        return "Sitio para crear pregunta"
-
-# Si se quiere actualizar una pregunta
-@app.route('/preguntas/eliminar/<int:preg_id>', methods=['GET', 'DELETE'])
-def eliminarPregunta(preg_id):
+    
+    elif request.method =='DELETE':
     # Por ahora busca la pregunta en el archivo
     if request.method == 'GET' or request.method == 'DELETE':
         # Abre el archivo de los datos (Eventualmente esto va a leer de una base de datos)
@@ -109,7 +105,11 @@ def eliminarPregunta(preg_id):
         return "Objeto con ID {} Eliminado".format(preg_id)
     else:
         return "Eliminando Pregunta"
-        
+    
+    else:
+        return "Sitio para crear pregunta"
+
+
 # Obtener todos los comentarios disponibles
 @app.route('/comentarios')
 def getComentarios():
@@ -161,7 +161,7 @@ def postComentario(preg_id):
                 # Si encuentra el identificador devuelve el contenido de esa pregunta
                 if pregunta['preg_id'] == preg_id:
                     # Crea un objeto de pregunta a partir de esos datos
-                    newComentario = Comentario(preg_id=requestData['preg_id'], texto=requestData['texto'], user_id=requestData['user_id'], com_id=str(preg_id) + str(len(pregunta['comments']+1)))
+                    newComentario = Comentario(preg_id=preg_id, texto=requestData['texto'], user_id=pregunta['userid'], com_id=str(preg_id) + str(len(pregunta['comments']+1)))
                     # La añade a las preguntas
                     pregunta['comments'].append(newComentario.toJSON())
                     # Lo escribe al archivo (Eventualmente una base de datos)
