@@ -25,7 +25,7 @@ class Array_Stack():
 
         else:
             self.__sarray[self.__top]=item
-            top+=1
+            self.__top+=1
 
     def getTop(self):
         if not self.empty():
@@ -51,7 +51,7 @@ class Array_Queue:
     def full(self):
         return self.__count >= len(self.__qarray)
 
-    def count():
+    def count(self):
         return self.__count
 
     def enqueue(self, item):
@@ -62,7 +62,7 @@ class Array_Queue:
         else:
             self.__qarray[self.__rear] = item
             self.__rear = (self.__rear +1) % len(self.__qarray)
-            count += 1
+            self.__count += 1
 
     def dequeue(self):
 
@@ -72,7 +72,7 @@ class Array_Queue:
 
         else:
             item  = self.__qarray[self.__front]
-            self._front = (self.__front + 1) % len(self.__qarray)
+            self.__front = (self.__front + 1) % len(self.__qarray)
             self.__count -= 1
 
         return item
@@ -81,13 +81,13 @@ class Array_Queue:
         return self.__qarray[self.__front]
 
     def getRear(self):
-        return self.__qarray[self.__rear]
+        if self.__real > 0:
+            return self.__qarray[self.__rear-1]
+        else:
+            return self.__qarray[len(self.__rear)]
 
 
-        
-        
-    
-   
+
          
          
                 
