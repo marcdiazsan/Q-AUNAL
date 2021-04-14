@@ -48,11 +48,11 @@ class SinglyLinkedList:
         
         if self.__head == None:
             print('No hay elementos para eliminar')
-            popNode=Node(None)
+            return
         else:
             popNode = self.__head
             self.__head = self.__head.getNext()
-            popNode.next = None
+            popNode.setNext(None)
 
         return popNode.getData()
 
@@ -140,21 +140,28 @@ class SLL_Queue(SinglyLinkedList):
         return self.__rear
 
     def dequeue(self):
+        
         element = super().popFront()
-
-        if super().getHead == None:
+        if super().getHead() == None:
             self.__rear = None
 
         return element
 
     def enqueue(self,item):
+        
         newNode = Node(item)
-        if self.__rear != None:
-            self.__rear.setNext(newNode)
-        else:
+        
+        if self.__rear == None:
+            self.__rear= newNode
             super().setHead(newNode)
+            return
 
+        self.__rear.setNext(newNode)
         self.__rear = newNode
+        
+
+    
+
 
 
         

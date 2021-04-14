@@ -1,6 +1,10 @@
+from LinkedList import SLL_Queue
+from Arrays import Array_Queue
+from Comentarios import Comentario
+
 class Pregunta:
     #Clase que describe una preguntas y sus atributos para el proyecto Q&A UNAL
-    def __init__(self, identificador, titulo,texto,fechaHora, tema, idUsuario, estatus, likes):
+    def __init__(self, identificador, titulo, texto, fechaHora, tema, idUsuario, likes, comentarios,estatus=False):
         self.__id=identificador
         self.__tituloPregunta=titulo
         self.__textoPregunta=texto
@@ -10,12 +14,22 @@ class Pregunta:
         self.__estatusPregunta=estatus
         self.__likesPregunta=likes
 
+        #se crea la estructura de los comentarios (se cambia cuando se necesite)
+        coments = SLL_Queue()
+        for com in comentarios:
+            comentario = Comentario(com['com_id'],com['texto'],com['date'],com['userid'],com['likes'],com['util'],com['preg_id'])
+
+            #si la estructura es una pila, se hace push y no enqueue
+            coments.enqueue(comentario)
+        self.__comentarios =  coments
+            
+
     def setId(self,identificador):
-        self.__idPregunta = identificador
+        self.__id = identificador
         
     def getId(self):
-        return self.__idPregunta
-
+        return self.__id
+    
     def setTituloPregunta(self,titulo):
         self.__tituloPregunta = titulo
 
@@ -58,7 +72,51 @@ class Pregunta:
     def getLikesPregunta(self):
         return self.__likesPregunta
 
-    
-a = Pregunta(1, 'Prueba','Prueba2','10/04/2021','Prueeba3','marcdiazsan',False,25)
+    def setComentariosPregunta(self, comentarios):
+        self.__comentarios = comentarios
 
-print(str(a.getIdUsuarioPregunta()))
+    def getComentariosPregunta(self):
+        return self.__comentarios
+
+    def __str__(self):
+        
+        listaComentarios = []
+        tmp = SLL_Queue()
+        
+        while self.__comentarios.count() != 0:
+            item = self.__comentarios.dequeue()
+            listaComentarios.append(str(item))
+            tmp.enqueue(item)
+        while tmp.count() != 0:
+            item = tmp.dequeue()
+            self.__comentarios.enqueue(item)
+        
+        return 'preg_id:{}\ntitulo:{}\ntexto:{}\nfecha:{}\ntema:{}\nuserid:{}\nstatus:{}\nlikes:{}\ncomments:{}'.format(self.__id, self.__tituloPregunta, self.__textoPregunta, self.__fechaHoraPregunta, self.__temaPregunta, self.__idUsuarioPregunta, self.__estatusPregunta, self.__likesPregunta,listaComentarios)
+
+    def toJSON(self):
+        listaComentarios = []
+        tmp = SLL_Queue()
+        
+        while self.__comentarios.count() != 0:
+            item = self.__comentarios.dequeue()
+            listaComentarios.append(item.toJSON())
+            tmp.enqueue(item)
+        while tmp.count() != 0:
+            item = tmp.dequeue()
+            self.__comentarios.enqueue(item)
+        
+
+        
+        jsondata = {
+            "date": str(self.__fechaHoraPregunta),
+            "estatus": self.__estatusPregunta,
+            "preg_id": self.__id,
+            "tema": self.__temaPregunta,
+            "texto": self.__textoPregunta,
+            "titulo": self.__tituloPregunta,
+            "userid": self.__idUsuarioPregunta,
+            "likes" : self.__likesPregunta,
+            "comments": listaComentarios
+        }
+
+        return jsondata
