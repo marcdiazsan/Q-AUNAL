@@ -18,8 +18,8 @@ class Comentario:
     def setTextoComentario(self,texto):
         self.__textoComentario = texto
 
-    def getTextoPregunta(self):
-        return self.__textoPregunta
+    def getTextoComentario(self):
+        return self.__textoComentario
 
     def setFechaHoraComentario(self,fechaHora):
         self.__fechaHoraComentario = fechaHora
@@ -39,11 +39,11 @@ class Comentario:
     def getUtilidadComentario(self):
         return self.__utilidadComentario
 
-    def setLikesComentario(self,likes):
-        self.__likesComentario = likes
+    def setLikesPregunta(self,likes):
+        self.__likesPregunta = likes
 
-    def getLikesComentario(self):
-        return self.__likesComentario
+    def getLikesPregunta(self):
+        return self.__likesPregunta
 
     def setIdPreguntaComentario(self, idPregunta):
         self.__idPreguntaComentario = idPregunta
@@ -52,8 +52,13 @@ class Comentario:
         return self.__idPreguntaComentario
 
     def __str__(self):
-        return 'com_id:{}\ntexto:{}\nfecha:{}\nutil:{}\nlikes:{}\nuserid:{}\npreg_id:{}\n'.format(self.__idComentario, self.__textoComentario, self.__fechaHoraComentario, self.__utilidadComentario, self.__likesComentario, self.__idUsuarioComentario, self.__idPreguntaComentario)
-        
+        return 'com_id:{}\ntexto:{}\nfecha:{}\nutil:{}\nlikes:{}\nuserid:{}\npreg_id:{}\n'.format(self.__idComentario,
+                                                                                                  self.__textoComentario,
+                                                                                                  self.__fechaHoraComentario,
+                                                                                                  self.__utilidadComentario,
+                                                                                                  self.__likesComentario,
+                                                                                                  self.__idUsuarioComentario,
+                                                                                                  self.__idPreguntaComentario)
 
     def toJSON(self):
         jsonrep = {
