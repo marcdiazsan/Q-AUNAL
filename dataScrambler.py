@@ -25,7 +25,7 @@ class DataCreator():
                 comentario = {"com_id": str(i) + str(j), "texto":fake.text(), "date": str(fecha), "userid": randint(1, 200), "likes": randint(0, 100), "util": "True", "preg_id": i}
                 pregunta["comments"].append(comentario)
             data[i] = pregunta
-        JSONData = open('JSONData.json', 'w')
+        JSONData = open('JSON100MILData.json', 'w')
         JSONData.write(json.dumps(data))
         JSONData.close()
         return True
