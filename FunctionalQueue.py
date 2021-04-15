@@ -4,14 +4,17 @@ from Preguntas import Pregunta
 from Comentarios import Comentario
 import json
 
-#from  import DLL_Queue
+from DoubleLinkedList import DLL_Queue
 
+
+#al cambiar por colas con array Array_Queue o listas doblemente enlazada, se cambia todo lo que tiene SLL_queue
 class FunctionalQueue(SLL_Queue):
     
     def __init__(self):
         #crea la estructura que se quiera o necesite
         super().__init__()
 
+    #creacion y llenado de la estructura de datos
     def creacion(self, dic):
         
         for key in dic.keys():
@@ -19,6 +22,7 @@ class FunctionalQueue(SLL_Queue):
             
             super().enqueue(item)
             
+    #adicion de una pregunta o comentario a la estructura correspondiente      
     def insercion(self, item, comment = False, idPregunta = None):
         inserted = False
 
@@ -32,7 +36,8 @@ class FunctionalQueue(SLL_Queue):
             inserted = True
 
         return inserted
-              
+    
+    #busqueda de preguntas por medio del Id          
     def buscarId(self, key):
         encontrado = None 
         tmp = SLL_Queue()
@@ -46,6 +51,7 @@ class FunctionalQueue(SLL_Queue):
             super().enqueue(item)
         return encontrado
 
+    #eliminacion de una pregunta o comentario de la estructura
     def eliminar(self, key, comment = False, idPregunta = None):
         deleted = False
 
@@ -75,7 +81,7 @@ class FunctionalQueue(SLL_Queue):
 
         return deleted 
                 
-         
+    #buscar una palabra dentro del titulo o tema     
     def buscar(self, word):
         encontrado = None
 
@@ -95,10 +101,10 @@ class FunctionalQueue(SLL_Queue):
             item = tmp.dequeue()
             super().enqueue(item)
 
-        return encontrado
+        return elementos
 
      
-         
+    #actualizacion de una pregunta o comentario   
     def actualizar(self, identificacion, cambios, idPregunta=None, titulo = False, texto = True, tema = False, utilidad = False, likes = False, comentario = False):
         tmp = SLL_Queue()
          
@@ -143,7 +149,7 @@ class FunctionalQueue(SLL_Queue):
                 pregunta.getComentariosPregunta().enqueue(item)
         return actualizado
 
-
+    #consulta total de las preguntas
     def consultaTotal(self):
         tmp = SLL_Queue()
          
@@ -160,6 +166,7 @@ class FunctionalQueue(SLL_Queue):
 
         return data
 
+    #guarda en un archivo externo la estructura
     def almacenamiento(self):
         tmp = SLL_Queue()
          
