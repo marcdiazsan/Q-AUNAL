@@ -159,7 +159,7 @@ class Stack(DLL_Stack):
 
         data = {}
         while super().count() != 0:
-            item = super().dequeue()
+            item = super().pop()
             data[item.getId()] = item.toJSON()
             tmp.push(item)
 
@@ -183,7 +183,8 @@ print(q.buscar('artes'))
 c={'texto':'Test Update'}
 q.eliminar(998)
 print(q.actualizar(3,c, texto= True))
-print(q.buscar('artes'))
+q.almacenamiento()
+print(q.consultaTotal())
 
 '''
 print("hola")
