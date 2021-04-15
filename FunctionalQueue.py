@@ -61,13 +61,13 @@ class FunctionalQueue(SLL_Queue):
 
 
         else:
-            pregunta = self.buscar(idPregunta)
+            pregunta = self.buscarId(idPregunta)
             while pregunta.getComentariosPregunta().count() != 0:
                 item = pregunta.getComentariosPregunta().dequeue()
                 tmp.enqueue(item)
             while tmp.count() != 0:
                 item = tmp.dequeue()
-                if item.getId() == key:
+                if int(item.getId()) == key:
                     deleted = True
                     pass
                 else:
@@ -117,7 +117,7 @@ class FunctionalQueue(SLL_Queue):
                 actualizado = True
                  
             if likes:
-                numero += pregunta.getLikesPregunta() 
+                numero = pregunta.getLikesPregunta() 
                 pregunta.setLikesPregunta(numero+1)
                 actualizado = True
 
@@ -128,7 +128,7 @@ class FunctionalQueue(SLL_Queue):
                 tmp.enqueue(item)
             while tmp.count() != 0:
                 item = tmp.dequeue()
-                if item.getId() == identificacion:
+                if int(item.getId()) == identificacion:
                     if texto:
                         item.setTextoComentario(cambios['texto'])
                         actualizado = True
@@ -136,7 +136,7 @@ class FunctionalQueue(SLL_Queue):
                         item.setUtilidadComentario(cambios['utilidad'])
                         actualizado=True
                     if likes:
-                        numero += pregunta.getLikesComentario() 
+                        numero = pregunta.getLikesComentario() 
                         item.setLikesComentario(numero+1)
                         actualizado = True
                          
