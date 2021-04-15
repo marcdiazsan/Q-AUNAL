@@ -1,6 +1,7 @@
 from LinkedList import SLL_Queue
+from DoubleLinkedList import DLL_Stack
 from Arrays import Array_Queue
-from Comentarios import Comentario
+from Comentarios import *
 
 class Pregunta:
     #Clase que describe una preguntas y sus atributos para el proyecto Q&A UNAL
@@ -14,22 +15,26 @@ class Pregunta:
         self.__estatusPregunta=estatus
         self.__likesPregunta=likes
 
-        #se crea la estructura de los comentarios (se cambia cuando se necesite)
-        coments = SLL_Queue()
-        for com in comentarios:
-            comentario = Comentario(com['com_id'],com['texto'],com['date'],com['userid'],com['likes'],com['util'],com['preg_id'])
 
-            #si la estructura es una pila, se hace push y no enqueue
-            coments.enqueue(comentario)
-        self.__comentarios =  coments
-            
+        # se crea la estructura de los comentarios (se cambia cuando se necesite)
+        coments = DLL_Stack()
+
+        for com in comentarios:
+
+            comentario = Comentario(com['com_id'], com['texto'], com['date'], com['userid'], com['likes'], com['util'],
+                                com['preg_id'])
+
+            #Para colas enqueue y para pilas push
+            coments.push(comentario)
+        self.__comentarios = coments
+
 
     def setId(self,identificador):
         self.__id = identificador
         
     def getId(self):
         return self.__id
-    
+
     def setTituloPregunta(self,titulo):
         self.__tituloPregunta = titulo
 
@@ -78,7 +83,56 @@ class Pregunta:
     def getComentariosPregunta(self):
         return self.__comentarios
 
+
+#Cuando se cambie de pilas a colas toca invertit cúal bloque está comentado para los métosos __str__ y toJSON
+
+
     def __str__(self):
+
+        listaComentarios = []
+        tmp = DLL_Stack()
+
+        while self.__comentarios.count() != 0:
+            #Para pilas pop y para colas dequeue
+            item = self.__comentarios.pop()
+            listaComentarios.append(str(item))
+            tmp.push(item)
+        while tmp.count() != 0:
+            item = tmp.pop()
+            self.__comentarios.push(item)
+
+        return 'preg_id:{}\ntitulo:{}\ntexto:{}\nfecha:{}\ntema:{}\nuserid:{}\nstatus:{}\nlikes:{}\ncomments:{}'.format(
+            self.__id, self.__tituloPregunta, self.__textoPregunta, self.__fechaHoraPregunta, self.__temaPregunta,
+            self.__idUsuarioPregunta, self.__estatusPregunta, self.__likesPregunta, listaComentarios)
+
+    def toJSON(self):
+        listaComentarios = []
+        tmp = DLL_Stack()
+
+        while self.__comentarios.count() != 0:
+            item = self.__comentarios.pop()
+            listaComentarios.append(item.toJSON())
+            tmp.push(item)
+        while tmp.count() != 0:
+            item = tmp.pop()
+            self.__comentarios.push(item)
+
+        jsondata = {
+            "date": str(self.__fechaHoraPregunta),
+            "estatus": self.__estatusPregunta,
+            "preg_id": self.__id,
+            "tema": self.__temaPregunta,
+            "texto": self.__textoPregunta,
+            "titulo": self.__tituloPregunta,
+            "userid": self.__idUsuarioPregunta,
+            "likes": self.__likesPregunta,
+            "comments": listaComentarios
+        }
+
+        return jsondata
+
+    '''
+     def __str__(self):
         
         listaComentarios = []
         tmp = SLL_Queue()
@@ -120,3 +174,5 @@ class Pregunta:
         }
 
         return jsondata
+    
+    '''
