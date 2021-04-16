@@ -103,7 +103,7 @@ class DoublyLinkedList:
         if self.__head == None:
             print('La lista no tiene elementos para eliminar')
         # el elemento que se quiere eliminar es la cabeza
-        if self.__head.getData().getId() == key:
+        if self.__head.getData() == key:
             self.__head = self.__head.getNext()
             if (self.__head!=None):
                 self.__head.setPrev(None)
@@ -113,7 +113,7 @@ class DoublyLinkedList:
         tmpNode = self.__head
 
         while tmpNode.getNext() != None:
-            if tmpNode.getNext().getData().getId() == key:
+            if tmpNode.getNext().getData() == key:
                 break  # si encuentra el elemento se rompe el ciclo
             tmpNode = tmpNode.getNext()
 
@@ -157,7 +157,7 @@ class DoublyLinkedList:
         return self.__head == None
 
 
-class SLL_Stack(DoublyLinkedList):
+class DLL_Stack(DoublyLinkedList):
 
     def __init__(self):
         super().__init__()
@@ -169,10 +169,10 @@ class SLL_Stack(DoublyLinkedList):
         super().pushFront(item)
 
     def pop(self):
-        super().popFront()
+        element = super().popFront()
+        return element
 
-
-class SLL_Queue(DoublyLinkedList):
+class DLL_Queue(DoublyLinkedList):
 
     def __init__(self):
         super().__init__()
@@ -189,14 +189,18 @@ class SLL_Queue(DoublyLinkedList):
 
 
     def enqueue(self, item):
-        super().pushBack()
+        super().pushBack(item)
 
-a=[1,2,3,4,5,6,7,8]
-k= DoublyLinkedList()
-for i in a:
-    k.pushFront(i)
+#a=[1,2,3,4,5,6,7,8]
+#k= Stack()
+#for i in a:
+#    k.addElement(i)
 #print(k.count())
-k.popBack()
-k.printList()
+#k.remove(7)
+#k.remove(1)
+#k.remove(8)
+#temp= Stack()
+#temp.addElement(k.getFirst())
+#temp.printList()
 #print(k.count())
 #print(k.getHead().getNext().getData())
