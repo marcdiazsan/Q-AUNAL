@@ -1,4 +1,4 @@
-class Array_Stack():
+class Array_Stack:
 
     def __init__(self, size):
         self.__top = 0
@@ -45,6 +45,15 @@ class Array_Queue:
         self.__count = 0
         self.__qarray = [None]*size
 
+    def setArray(self,array):
+        self.__qarray = array
+
+    def getArray(self):
+        return self.__qarray
+
+    def getSize(self):
+        return len(self.__qarray)
+
     def empty(self):
         return self.__count <= 0
 
@@ -89,7 +98,14 @@ class Array_Queue:
 
 
          
-         
+a = Array_Queue(2)
+
+a.enqueue(1)
+
+print(type(a))
+
+
+
                 
 
         

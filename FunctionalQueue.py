@@ -3,17 +3,29 @@ from LinkedList import SLL_Queue
 from Preguntas import Pregunta
 from Comentarios import Comentario
 import json
+import LinkedList
 
 from DoubleLinkedList import DLL_Queue
 
+#Cuando se hagan las pruebas, no olvidar que se debe cambiar preguntas y comentarios cuando se cambian de filas a colas
+
+#si se usan arreglos, no olvidar cambiar la variable booleana arrays aca y ademas en preguntas 
+
+arrays=False
+
 
 #al cambiar por colas con array Array_Queue o listas doblemente enlazada, se cambia todo lo que tiene SLL_queue
+
 class FunctionalQueue(SLL_Queue):
     
-    def __init__(self):
+    def __init__(self, size = None):
         #crea la estructura que se quiera o necesite
-        super().__init__()
 
+        if arrays:
+            super().__init__(size)
+        else:
+            super().__init__()
+              
     #creacion y llenado de la estructura de datos
     def creacion(self, dic):
         
@@ -27,11 +39,25 @@ class FunctionalQueue(SLL_Queue):
         inserted = False
 
         if not comment:
+            if arrays:
+                if super().full():
+                    tmp = super().getArray()
+                    newArray=[None]*(super().getSize()+1)
+                    newArray[:len(tmp)] = tmp
+                    super.setArray(newArray)
+                    
             super().enqueue(item)
             inserted = True
 
         else:
             pregunta = self.buscarId(idPregunta)
+            if arrays:
+                if pregunta.getComentariosPregunta().full():
+                    tmp = pregunta.getComentariosPregunta().getArray()
+                    newArray=[None]*(pregunta.getComentariosPregunta().getSize()+1)
+                    newArray[:len(tmp)] = tmp
+                    pregunta.getComentariosPregunta().setArray(newArray)
+                    
             pregunta.getComentariosPregunta().enqueue(item)
             inserted = True
 
@@ -185,20 +211,6 @@ class FunctionalQueue(SLL_Queue):
         JSONData.close()
 
         return True
-         
-             
-         
-q=FunctionalQueue()
-
-with open('JSONData.json') as data:
-    apiData = json.loads(data.read())
-
-q.creacion(apiData)
-print(q.buscar('artes'))
-c={'texto':'Test Update'}
-q.eliminar(998)
-print(q.buscar('artes'))
-#print(q.actualizar(998,c, texto= True))
 
            
              

@@ -3,6 +3,8 @@ from DoubleLinkedList import DLL_Stack
 from Arrays import Array_Queue
 from Comentarios import *
 
+arrays=False
+
 class Pregunta:
     #Clase que describe una preguntas y sus atributos para el proyecto Q&A UNAL
     def __init__(self, identificador, titulo, texto, fechaHora, tema, idUsuario, likes, comentarios,estatus=False):
@@ -17,7 +19,10 @@ class Pregunta:
 
 
         # se crea la estructura de los comentarios (se cambia cuando se necesite)
-        coments = DLL_Stack()
+        if arrays:
+            coments = Arrays_Stack(len(comentarios))
+        else:
+            coments = DLL_Stack()
 
         for com in comentarios:
 
