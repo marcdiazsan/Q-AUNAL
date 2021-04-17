@@ -73,7 +73,7 @@ class FunctionalQueue(SLL_Queue):
                 tmp.enqueue(item)
             while tmp.count() != 0:
                 item = tmp.dequeue()
-                if int(item.getId()) == key:
+                if item.getId() == key:
                     deleted = True
                     pass
                 else:
@@ -134,7 +134,7 @@ class FunctionalQueue(SLL_Queue):
                 tmp.enqueue(item)
             while tmp.count() != 0:
                 item = tmp.dequeue()
-                if int(item.getId()) == identificacion:
+                if item.getId() == identificacion:
                     if texto:
                         item.setTextoComentario(cambios['texto'])
                         actualizado = True
