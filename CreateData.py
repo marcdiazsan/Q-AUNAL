@@ -3,6 +3,5 @@ from time import perf_counter
 
 init_time = perf_counter()
 creator = DataCreator()
-creator.createData(100000, 5)
+creator.createData(2500000, 4)
 end_time = perf_counter()
-print("1000 preguntas cada una con 50 comentarios en {} segundos".format(end_time-init_time))
