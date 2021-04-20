@@ -107,8 +107,22 @@ class SinglyLinkedList:
         
         while tmpNode != None:
             if tmpNode.getData().getId() == key:
-                print('test',tmpNode.getData().getId())
+                return tmpNode.getData()
             tmpNode = tmpNode.getNext()
+
+    def findWord(self, word):
+        data={}
+        if self.__head == None:
+            print('La lista no tiene elementos')
+            return
+        
+        tmpNode = self.__head
+        
+        while tmpNode != None:
+            if key in tmpNode.getData().getTituloPregunta() and key in tmpNode.getData().getTemaPregunta():
+                data[tmpNode.getData().getId())]=tmpNode().getData.toJSON()
+            tmpNode = tmpNode.getNext()
+        return data
 
     def empty(self):
         return self.__head == None

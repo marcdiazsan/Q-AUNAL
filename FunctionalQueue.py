@@ -212,10 +212,13 @@ class FunctionalQueue(SLL_Queue):
 
         return True
 
-           
+q = FunctionalQueue()        
              
+with open('JSONData.json') as data:
+    apiData = json.loads(data.read())
 
-         
+q.creacion(apiData)
+
          
             
              
