@@ -5,9 +5,17 @@ from Arrays import Array_Stack
 from LinkedList import SLL_Stack
 import json
 
+arrays=False
+
 class Stack(DLL_Stack):
-    def __init__(self):
-        super().__init__()
+
+    def __init__(self, size = None):
+        #crea la estructura que se quiera o necesite
+
+        if arrays:
+            super().__init__(size)
+        else:
+            super().__init__()
 
     def creacion(self,dic):
         for i in dic.keys():
@@ -18,11 +26,25 @@ class Stack(DLL_Stack):
         addition = False
 
         if not comment:
+            if arrays:
+                if super().full():
+                    tmp = super().getArray()
+                    newArray = [None] * (super().getSize() + 1)
+                    newArray[:len(tmp)] = tmp
+                    super.setArray(newArray)
             super().push(item)
             addition = True
 
         else:
             pregunta = self.buscarId(idPregunta)
+
+            if arrays:
+                if pregunta.getComentariosPregunta().full():
+                    tmp = pregunta.getComentariosPregunta().getArray()
+                    newArray = [None] * (pregunta.getComentariosPregunta().getSize() + 1)
+                    newArray[:len(tmp)] = tmp
+                    pregunta.getComentariosPregunta().setArray(newArray)
+
             pregunta.getComentariosPregunta().push(item)
             addition = True
 
@@ -30,15 +52,20 @@ class Stack(DLL_Stack):
 
     def buscarId(self, key):
         encontrado = None
-        tmp = DLL_Stack()
-        while self.count() != 0:
-            item = self.pop()
-            tmp.push(item)
-            if item.getId() == key:
-                encontrado = item
+        #tmp = DLL_Stack()
+        item=super().getTop()
+        while item != None:
+            #print(item.getData().getId())
+            #tmp.push(item)
+            if item.getData().getId() == key:
+                encontrado = item.getData()
+                break
+            item=item.getNext()
+        '''
         while tmp.count() != 0:
             item = tmp.pop()
             super().push(item)
+        '''
         return encontrado
 
     def eliminar(self, key, comment = False, idPregunta = None):
@@ -48,9 +75,12 @@ class Stack(DLL_Stack):
             if super().getTop()==None:
                 return None
             else:
+                deleted=super().erase(key)
+                '''
                 while super().count() != 0:
                     if super().getTop().getData().getId() == key:
                         super().pop()
+                        deleted=True
                         break
                     else:
                         a=super().pop()
@@ -58,40 +88,63 @@ class Stack(DLL_Stack):
                 for j in range(0,temp.count()):
                     a=temp.pop()
                     super().push(a)
+                '''
         else:
-            pregunta=self.buscarId(idPregunta)
+            pregunta = self.buscarId(idPregunta)
+            #deleted=pregunta.getComentariosPregunta().erase(key)
+            #print(pregunta.getComentariosPregunta().count())
+            #deleted=pregunta.getComentariosPregunta().erase(key)
+            #print(key)
+
             while pregunta.getComentariosPregunta().count() != 0:
-                if pregunta.getComentariosPregunta().getTop().getData().getId() == key:
-                    pregunta.getComentariosPregunta().pop()
+                item = pregunta.getComentariosPregunta().pop()
+                temp.push(item)
+            while temp.count() != 0:
+                item = temp.pop()
+                if int(item.getId()) == key:
                     deleted = True
-                    break
+                    pass
                 else:
-                    a=pregunta.getComentariosPregunta().pop()
-                    temp.push(a)
-                for i in range(0,temp.count()):
-                    a=temp.pop()
-                    super().push(a)
+                    pregunta.getComentariosPregunta().push(item)
+
+
         return deleted
 
 
     def buscar(self,termino):
+        '''
+
+        encontrado = None
+        #tmp = DLL_Stack()
+        item = super().getTop()
+        while self.count() != 0:
+            # print(item.getData().getId())
+            # tmp.push(item)
+            if item.getData().getId() == key:
+                encontrado = item.getData()
+                break
+            item = item.getNext()
+        '''
+
         encontrado = None
 
         tmp = DLL_Stack()
 
         elementos = DLL_Stack()
+        item = super().getTop()
 
-        while super().count() != 0:
-            item = super().pop()
-            tmp.push(item)
-            if termino.lower() in item.getTituloPregunta().lower() or termino.lower() in item.getTemaPregunta().lower():
+        while item!=None:
+            #item = super().pop()
+            #tmp.push(item)
+            if termino.lower() in item.getData().getTituloPregunta().lower() or termino.lower() in item.getData().getTemaPregunta().lower():
                 encontrado = item
                 elementos.push(item)
-        while tmp.count() != 0:
-            item = tmp.pop()
-            super().push(item)
+            item = item.getNext()
+       # while tmp.count() != 0:
+        #    item = tmp.pop()
+         #   super().push(item)
 
-        return encontrado
+        return elementos
 
 #La entrada cambios es tipo diccionario
     def actualizar(self, id, cambios, idPregunta=None, titulo=False, texto=True, tema=False, utilidad=False,
@@ -155,17 +208,18 @@ class Stack(DLL_Stack):
         return data
 
     def almacenamiento(self):
-        tmp = DLL_Stack()
-
+        #tmp = DLL_Stack()
+        item=super().getTop()
         data = {}
-        while super().count() != 0:
-            item = super().pop()
-            data[item.getId()] = item.toJSON()
-            tmp.push(item)
+        while item != None:
+         #   item = super().pop()
+            data[item.getData().getId()] = item.getData().toJSON()
+            item=item.getNext()
+            #tmp.push(item)
 
-        while tmp.count() != 0:
-            item = tmp.pop()
-            super().push(item)
+        #while tmp.count() != 0:
+         #   item = tmp.pop()
+          #  super().push(item)
 
         JSONData = open('JSONDataTotal.json', 'w')
         JSONData.write(json.dumps(data))
@@ -179,12 +233,21 @@ with open('JSON10MILData.json') as data:
     apiData = json.loads(data.read())
 
 q.creacion(apiData)
-print(q.buscar('artes'))
-c={'texto':'Test Update'}
-q.eliminar(998)
-print(q.actualizar(3,c, texto= True))
+a=q.buscar('artes')
+print(a.count())
+#a.printlist()
+#print(q.buscar('artes'))
+#c={'texto':'Test Update'}
+#print(q.buscarId(9808))
+#print(q.count())
+q#.eliminar(98082, comment = True, idPregunta = 9808)
+#print(q.buscarId(9808))
+#print(q.count())
+#q.eliminar(450)
+#print(q.count())
+#print(q.actualizar(3,c, texto= True))
 q.almacenamiento()
-print(q.consultaTotal())
+#print(q.consultaTotal())
 
 '''
 print("hola")

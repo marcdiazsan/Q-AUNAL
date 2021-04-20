@@ -100,11 +100,17 @@ class DoublyLinkedList:
 
     #Remueve un elemento específico por su ID
     def erase(self, key):
+        erased=False
         if self.__head == None:
             print('La lista no tiene elementos para eliminar')
         # el elemento que se quiere eliminar es la cabeza
-        if self.__head.getData() == key:
+        #a=int(self.__head.getData().getId())-key
+        #print(a)
+        if self.__head.getData().getId() == key:
+            print("prueba")
+            print(self.__head.getData().getId())
             self.__head = self.__head.getNext()
+            erased=True
             if (self.__head!=None):
                 self.__head.setPrev(None)
 
@@ -113,7 +119,9 @@ class DoublyLinkedList:
         tmpNode = self.__head
 
         while tmpNode.getNext() != None:
-            if tmpNode.getNext().getData() == key:
+            print(tmpNode.getNext().getData().getId())
+            if tmpNode.getNext().getData().getId() == key:
+                print("Borrado")
                 break  # si encuentra el elemento se rompe el ciclo
             tmpNode = tmpNode.getNext()
 
@@ -121,8 +129,10 @@ class DoublyLinkedList:
         if tmpNode.getNext() == None:
             print('Item no encontrado')
         else:
+            erased=True
             tmpNode.setNext(tmpNode.getNext().getNext())
             tmpNode.getNext().setPrev(tmpNode)
+        return erased
 
     # cuenta el numero de elementos en la lista
     def count(self):
@@ -150,7 +160,9 @@ class DoublyLinkedList:
 
         while tmpNode != None:
             if tmpNode.getData().getId() == key:
-                print('test', tmpNode.getData().getId())
+                return tmpNode.getData()
+                break
+                #print('test', tmpNode.getData().getId())
             tmpNode = tmpNode.getNext()
 
     def empty(self):
