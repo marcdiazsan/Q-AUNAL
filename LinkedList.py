@@ -119,8 +119,8 @@ class SinglyLinkedList:
         tmpNode = self.__head
         
         while tmpNode != None:
-            if key in tmpNode.getData().getTituloPregunta() and key in tmpNode.getData().getTemaPregunta():
-                data[tmpNode.getData().getId())]=tmpNode().getData.toJSON()
+            if word in tmpNode.getData().getTituloPregunta() or word in tmpNode.getData().getTemaPregunta():
+                data[tmpNode.getData().getId()]=tmpNode.getData().toJSON()
             tmpNode = tmpNode.getNext()
         return data
 

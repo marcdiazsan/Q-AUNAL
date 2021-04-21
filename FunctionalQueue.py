@@ -219,6 +219,8 @@ with open('JSONData.json') as data:
 
 q.creacion(apiData)
 
+print(q.findWord('Medicina'))
+
          
             
              
