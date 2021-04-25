@@ -1,5 +1,5 @@
 import requests
-
+import json
 # Clase de fetcher
 
 
@@ -51,7 +51,7 @@ class Fetcher():
 
 user = True
 menu = """Bienvenido a Q&A UNAL.\n¿Qué desea hacer?\n1. Ver todas las preguntas\n2. Buscar pregunta por texto\n3. Añadir una nueva pregunta.\n4. Actualizar una pregunta\n5. Eliminar una pregunta\n6. Ver todos los comentarios\n7. Ver un comentario por su ID\n8. Añadir un comentario.\n9. Actualizar un comentario\n10. Eliminar un comentario\n11. Salir"""
-fetcher = Fetcher('http://localhost:5000/')
+fetcher = Fetcher('https://qaunalapi.herokuapp.com/')
 while user:
     print(menu)
     choice = int(input())
@@ -59,11 +59,11 @@ while user:
         choice = input("Opcion Invalida. Intentelo de nuevo ")
     if choice == 1:
         res = fetcher.getPreguntas()
-        print(res.text)
+        print(json.dumps(json.loads(res.text), indent=4))
     elif choice == 2:
         preg_text = input("Por favor ingresa el texto de la pregunta ")
         res = fetcher.getPregunta(preg_text)
-        print(res.text)
+        print(json.dumps(json.loads(res.text), indent=4))
 
     elif choice == 3:
         titulo = input("Ingresa el título de tu pregunta ")
@@ -79,7 +79,7 @@ while user:
         }
 
         res = fetcher.nuevaPregunta(datos)
-        print(res.text)
+        print(json.dumps(json.loads(res.text), indent=4))
 
     elif choice == 4:
         idp = int(input("Ingresa el ID de la pregunta a actualizar "))
@@ -101,21 +101,21 @@ while user:
             "likes": likes
         }
         res = fetcher.actualizarPregunta(preg_id=idp, datos=datos)
-        print(res.text)
+        print(json.dumps(json.loads(res.text), indent=4))
 
     elif choice == 5:
         idp = int(input("Ingresa el ID de la pregunta a eliminar "))
         res = fetcher.borrarPregunta(preg_id=idp)
-        print(res.text)
+        print(json.dumps(json.loads(res.text), indent=4))
 
     elif choice == 6:
         res = fetcher.getComentarios()
-        print(res.text)
+        print(json.dumps(json.loads(res.text), indent=4))
 
     elif choice == 7:
         com_id = input("Por favor ingresa el id del comentario ")
         res = fetcher.getComentario(com_id=com_id)
-        print(res.text)
+        print(json.dumps(json.loads(res.text), indent=4))
 
     elif choice == 8:
         preg_id = int(input(
@@ -147,13 +147,13 @@ while user:
         }
         res = fetcher.actualizarComentario(
             preg_id=idp, com_id=idc, datos=datos)
-        print(res.text)
+        print(json.dumps(json.loads(res.text), indent=4))
 
     elif choice == 10:
         idp = int(input("Ingresa el ID de la pregunta "))
         idc = input("Ingresa el ID del comentario ")
         res = fetcher.borrarComentario(preg_id=idp, com_id=idc)
-        print(res.text)
+        print(json.dumps(json.loads(res.text), indent=4))
 
     else:
         user = False
