@@ -1,6 +1,7 @@
 from Preguntas import *
 from Comentarios import *
 
+
 class Node:
     def __init__(self, data):
         self.__data = data
@@ -23,6 +24,7 @@ class Node:
         return self.__prev
 
 # definicion de la clase pilas con listas simplemente enlazadas
+
 
 class DoublyLinkedList:
 
@@ -56,9 +58,9 @@ class DoublyLinkedList:
     # agregar al final de la lista
     def pushBack(self, item):
         newNode = Node(item)
-        if (self.__tail==None):
-            self.__tail=newNode
-            self.__head=newNode
+        if (self.__tail == None):
+            self.__tail = newNode
+            self.__head = newNode
         else:
             newNode.setPrev(self.__tail)
             self.__tail.setNext(newNode)
@@ -71,47 +73,47 @@ class DoublyLinkedList:
             print('No hay elementos para eliminar')
             popNode = Node(None)
         else:
-            if (self.__tail==self.__head):
-                self.__tail=None
+            if (self.__tail == self.__head):
+                self.__tail = None
             popNode = self.__head
             self.__head = self.__head.getNext()
             popNode.next = None
-            if (self.__head!=None):
+            if (self.__head != None):
                 self.__head.setPrev(None)
 
         return popNode.getData()
 
-    #Remueve el último elemento
+    # Remueve el último elemento
     def popBack(self):
         if self.__tail == None:
             print('No hay elementos para eliminar')
             popNode = Node(None)
-        elif(self.__tail==self.__head):
-            popNode=self.__tail
-            self.__tail=None
-            self.__head=None
+        elif(self.__tail == self.__head):
+            popNode = self.__tail
+            self.__tail = None
+            self.__head = None
         else:
-            popNode=self.__tail
-            self.__tail=self.__tail.getPrev()
-            popNode.prev=None
+            popNode = self.__tail
+            self.__tail = self.__tail.getPrev()
+            popNode.prev = None
             self.__tail.setNext(None)
 
         return popNode.getData()
 
-    #Remueve un elemento específico por su ID
+    # Remueve un elemento específico por su ID
     def erase(self, key):
-        erased=False
+        erased = False
         if self.__head == None:
             print('La lista no tiene elementos para eliminar')
         # el elemento que se quiere eliminar es la cabeza
-        #a=int(self.__head.getData().getId())-key
-        #print(a)
+        # a=int(self.__head.getData().getId())-key
+        # print(a)
         if self.__head.getData().getId() == key:
             print("prueba")
             print(self.__head.getData().getId())
             self.__head = self.__head.getNext()
-            erased=True
-            if (self.__head!=None):
+            erased = True
+            if (self.__head != None):
                 self.__head.setPrev(None)
 
         # se busca el elemento
@@ -129,7 +131,7 @@ class DoublyLinkedList:
         if tmpNode.getNext() == None:
             print('Item no encontrado')
         else:
-            erased=True
+            erased = True
             tmpNode.setNext(tmpNode.getNext().getNext())
             tmpNode.getNext().setPrev(tmpNode)
         return erased
@@ -145,10 +147,10 @@ class DoublyLinkedList:
         return count
 
     def printList(self):
-        temp=self.__head
+        temp = self.__head
         while(temp):
             print(temp.getData())
-            temp=temp.getNext()
+            temp = temp.getNext()
 
     def find(self, key):
 
@@ -184,6 +186,7 @@ class DLL_Stack(DoublyLinkedList):
         element = super().popFront()
         return element
 
+
 class DLL_Queue(DoublyLinkedList):
 
     def __init__(self):
@@ -199,20 +202,19 @@ class DLL_Queue(DoublyLinkedList):
     def dequeue(self):
         super().popFront()
 
-
     def enqueue(self, item):
         super().pushBack(item)
 
-#a=[1,2,3,4,5,6,7,8]
+# a=[1,2,3,4,5,6,7,8]
 #k= Stack()
-#for i in a:
+# for i in a:
 #    k.addElement(i)
-#print(k.count())
-#k.remove(7)
-#k.remove(1)
-#k.remove(8)
+# print(k.count())
+# k.remove(7)
+# k.remove(1)
+# k.remove(8)
 #temp= Stack()
-#temp.addElement(k.getFirst())
-#temp.printList()
-#print(k.count())
-#print(k.getHead().getNext().getData())
+# temp.addElement(k.getFirst())
+# temp.printList()
+# print(k.count())
+# print(k.getHead().getNext().getData())

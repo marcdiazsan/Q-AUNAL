@@ -16,7 +16,7 @@ class Array_Stack:
             return
 
         else:
-            self.__top-=1
+            self.__top -= 1
             return self.__sarray[self.__top]
 
     def push(self, item):
@@ -24,18 +24,19 @@ class Array_Stack:
             print('La pila esta llena')
 
         else:
-            self.__sarray[self.__top]=item
-            self.__top+=1
+            self.__sarray[self.__top] = item
+            self.__top += 1
 
     def getTop(self):
         if not self.empty():
             return self.__sarray[self.__top - 1]
         else:
             return None
-        
+
     def count(self):
         return self.getTop()
-                
+
+
 class Array_Queue:
 
     def __init__(self, size):
@@ -45,7 +46,7 @@ class Array_Queue:
         self.__count = 0
         self.__qarray = [None]*size
 
-    def setArray(self,array):
+    def setArray(self, array):
         self.__qarray = array
 
     def getArray(self):
@@ -64,13 +65,13 @@ class Array_Queue:
         return self.__count
 
     def enqueue(self, item):
-        
+
         if self.full():
             print('La cola esta llena')
 
         else:
             self.__qarray[self.__rear] = item
-            self.__rear = (self.__rear +1) % len(self.__qarray)
+            self.__rear = (self.__rear + 1) % len(self.__qarray)
             self.__count += 1
 
     def dequeue(self):
@@ -80,7 +81,7 @@ class Array_Queue:
             print('La cola esta vacia')
 
         else:
-            item  = self.__qarray[self.__front]
+            item = self.__qarray[self.__front]
             self.__front = (self.__front + 1) % len(self.__qarray)
             self.__count -= 1
 
@@ -94,26 +95,3 @@ class Array_Queue:
             return self.__qarray[self.__rear-1]
         else:
             return self.__qarray[len(self.__rear)]
-
-
-
-         
-a = Array_Queue(2)
-
-a.enqueue(1)
-
-print(type(a))
-
-
-
-                
-
-        
-
-
-    
-        
-
-    
-    
-    
