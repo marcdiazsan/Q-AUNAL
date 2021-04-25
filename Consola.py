@@ -11,8 +11,8 @@ class Fetcher():
         req_url = self.url + '/preguntas'
         return requests.get(req_url)
 
-    def getPregunta(self, preg_id):
-        req_url = self.url + f'/preguntas/{preg_id}'
+    def getPregunta(self, preg_text):
+        req_url = self.url + f'/preguntas/{preg_text}'
         return requests.get(req_url)
 
     def nuevaPregunta(self, datos):
@@ -36,8 +36,8 @@ class Fetcher():
         req_url = self.url + f'/comentarios/{com_id}'
         return requests.get(req_url)
 
-    def nuevoComentario(self, datos):
-        req_url = self.url + 'comentarios/nuevo'
+    def nuevoComentario(self, datos, preg_id):
+        req_url = self.url + f'comentarios/nuevo/{preg_id}'
         return requests.post(req_url, json=datos)
 
     def actualizarComentario(self, preg_id, com_id, datos):
@@ -50,27 +50,27 @@ class Fetcher():
 
 
 user = True
-menu = """Bienvenido a Q&A UNAL.\n¿Qué desea hacer?\n1. Ver todas las preguntas\n2. Ver una pregunta por su ID\n3. Añadir una nueva pregunta.\n4. Actualizar una pregunta\n5. Eliminar una pregunta\n6. Ver todos los comentarios\n7. Ver un comentario por su ID\n8. Añadir una nueva pregunta.\n9. Actualizar un comentario\n10. Eliminar un comentario\n11. Salir"""
+menu = """Bienvenido a Q&A UNAL.\n¿Qué desea hacer?\n1. Ver todas las preguntas\n2. Buscar pregunta por texto\n3. Añadir una nueva pregunta.\n4. Actualizar una pregunta\n5. Eliminar una pregunta\n6. Ver todos los comentarios\n7. Ver un comentario por su ID\n8. Añadir un comentario.\n9. Actualizar un comentario\n10. Eliminar un comentario\n11. Salir"""
 fetcher = Fetcher('http://localhost:5000/')
 while user:
     print(menu)
     choice = int(input())
     while 1 > choice > 11:
-        choice = input("Opcion Invalida. Intentelo de nuevo")
+        choice = input("Opcion Invalida. Intentelo de nuevo ")
     if choice == 1:
         res = fetcher.getPreguntas()
         print(res.text)
     elif choice == 2:
-        preg_id = int(input("Por favor ingresa el id de la pregunta"))
-        res = fetcher.getPregunta(preg_id)
+        preg_text = input("Por favor ingresa el texto de la pregunta ")
+        res = fetcher.getPregunta(preg_text)
         print(res.text)
 
     elif choice == 3:
-        titulo = input("Ingresa el título de tu pregunta")
-        texto = input("Ingresa el texto de tu pregunta")
-        tema = input("Ingresa el tema de tu pregunta (Facultad)")
+        titulo = input("Ingresa el título de tu pregunta ")
+        texto = input("Ingresa el texto de tu pregunta ")
+        tema = input("Ingresa el tema de tu pregunta (Facultad) ")
         userid = int(input(
-            "Ingresa tu id de usuario. (En el futuro no tendrás que hacer esto, nosotros lo verificaremos por ti"))
+            "Ingresa tu id de usuario. (En el futuro no tendrás que hacer esto, nosotros lo verificaremos por ti "))
         datos = {
             "titulo": titulo,
             "texto": texto,
@@ -104,7 +104,7 @@ while user:
         print(res.text)
 
     elif choice == 5:
-        idp = int(input("Ingresa el ID de la pregunta a eliminar"))
+        idp = int(input("Ingresa el ID de la pregunta a eliminar "))
         res = fetcher.borrarPregunta(preg_id=idp)
         print(res.text)
 
@@ -113,36 +113,45 @@ while user:
         print(res.text)
 
     elif choice == 7:
-        com_id = int(input("Por favor ingresa el id del comentario"))
+        com_id = input("Por favor ingresa el id del comentario ")
         res = fetcher.getComentario(com_id=com_id)
         print(res.text)
 
     elif choice == 8:
-        texto = input("Ingresa el texto de tu pregunta")
+        preg_id = int(input(
+            "Ingresa el ID de la pregunta a la que quieres añadir el comentario "))
+        texto = input("Ingresa el texto de tu comentario ")
         userid = input(
-            "Ingresa tu id de usuario. (En el futuro no tendrás que hacer esto, nosotros lo verificaremos por ti")
+            "Ingresa tu id de usuario. (En el futuro no tendrás que hacer esto, nosotros lo verificaremos por ti ")
 
         datos = {
+            "preg_id": preg_id,
             "texto": texto,
             "userid": int(userid)
         }
-        res = fetcher.nuevoComentario(datos=datos)
+        res = fetcher.nuevoComentario(datos=datos, preg_id=preg_id)
         print(res.text)
 
     elif choice == 9:
-        idp = int(input("Ingresa el ID de la pregunta"))
-        idc = int(input("Ingresa el ID del comentario"))
-        texto = input("Ingresa el texto de tu pregunta")
+        idp = int(input("Ingresa el ID de la pregunta "))
+        idc = input("Ingresa el ID del comentario ")
+        texto = input("Ingresa el texto de tu comentario ")
+        utilidad = input("Cambiar utilidad S/N ")
+        if utilidad == "S":
+            utilidad = True
+        else:
+            utilidad = False
         datos = {
-            "texto": texto
+            "texto": texto,
+            "utilidad": utilidad
         }
         res = fetcher.actualizarComentario(
             preg_id=idp, com_id=idc, datos=datos)
         print(res.text)
 
     elif choice == 10:
-        idp = int(input("Ingresa el ID de la pregunta"))
-        idc = int(input("Ingresa el ID del comentario"))
+        idp = int(input("Ingresa el ID de la pregunta "))
+        idc = input("Ingresa el ID del comentario ")
         res = fetcher.borrarComentario(preg_id=idp, com_id=idc)
         print(res.text)
 

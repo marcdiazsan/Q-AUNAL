@@ -5,6 +5,8 @@ from Preguntas import *
 from Comentarios import *
 from FunctionalQueue import FunctionalQueue
 from Encolador import Encolador
+from datetime import datetime
+import os
 
 
 app = Flask(__name__)
@@ -22,18 +24,16 @@ def getPreguntas():
         # Inicia el contador
         s = time.time()
         # Instancia la estructura a usar
-        estructura = encolador.encolar(10000)
+        estructura = encolador.encolar()
         # Detiene el contador
         e = time.time()
-        print("10k datos encolados en {}s".format(e-s))
+        print("{} datos encolados en {}s".format(estructura.count(), e-s))
         # Inicia el contador / Cuanto toma mostrarlos
         s = time.time()
-        for i in range(estructura.count()):
-            pregunta = estructura.dequeue()
-            renderDict[pregunta.getId()] = pregunta.toJSON()
+        renderDict = estructura.consultaTotal()
         e = time.time()
         # Detiene el contador
-        print("10k datos desencolados en {}s".format(e-s))
+        print("{} datos desencolados en {}s".format(estructura.count(), e-s))
     return jsonify(renderDict)
 
 
@@ -41,17 +41,19 @@ def getPreguntas():
 @app.route('/preguntas/<string:preg_text>', methods=['GET'])
 def getPregunta(preg_text):
     if request.method == 'GET':
+        renderDict = {}
         s = time.time()
-        estructura = encolador.encolar(10000)
+        estructura = encolador.encolar()
         e = time.time()
-        print("10k datos encolados en {}s".format(e-s))
+        print("{} datos encolados en {}s".format(estructura.count(), e-s))
         # Buscar el elementos
         s = time.time()
-        pregunta = estructura.buscar(preg_text)
+        pregunta = estructura.findWord(preg_text)
         e = time.time()
         if pregunta != None:
             print("Objeto encontrado en {}s".format(e-s))
-            return jsonify(pregunta.toJSON())
+            # Detiene el contador
+            return jsonify(pregunta)
         else:
             print("La pregunta con texto: {}, no existe".format(preg_text))
             return jsonify("No se encontró el item solicitado")
@@ -64,18 +66,24 @@ def nuevaPregunta():
         # Solicita los datos del request (Eventualmente van a venir de una forma)
         requestData = request.get_json()
         # Encola los datos
-        estructura = encolador.encolar(10000)
+        estructura = encolador.encolar()
         # Solicita la creación de la pregunta en la cola
         # Inicia el temporizador
         s = time.time()
-        estructura.creacion(requestData)
+        item = Pregunta(estructura.count()+1, requestData['titulo'], requestData['texto'], str(datetime.now()), requestData
+                        ['tema'], requestData['userid'], 0, [], "Abierto")
+        estructura.insercion(item)
         e = time.time()
         # Informa el tiempo
         print("Objeto creado en {} segundos".format(e-s))
         # Guarda al archivo
+        s = time.time()
         estructura.almacenamiento('JSON10MILData.json')
+        e = time.time()
+        print(f'Guardado a archivo en {e-s}s')
+
         # Muestra el objeto creado. Eventualmente, el objeto se añade a una cola de preguntas
-        return "Pregunta creada y guardada"
+        return f"Pregunta creada y guardada en {e-s}s"
     else:
         return "Sitio para crear pregunta"
 
@@ -85,7 +93,7 @@ def nuevaPregunta():
 @app.route('/preguntas/actualizar/<int:preg_id>', methods=['PUT', 'DELETE'])
 def actualizarPregunta(preg_id):
     # Encola los datos
-    estructura = encolador.encolar(10000)
+    estructura = encolador.encolar()
     # Por ahora busca la pregunta en el archivo
     if request.method == 'PUT':
         # Solicita los datos del request (Eventualmente van a venir de una forma)
@@ -99,8 +107,9 @@ def actualizarPregunta(preg_id):
             'likes': requestData.get('likes', None)
         }
         s = time.time()
-        estructura.actualizar(identificacion=None,
-                              cambios=cambios, idPregunta=preg_id)
+        print("Llamando")
+        estructura.actualizar(identificacion=preg_id,
+                              cambios=cambios)
         e = time.time()
         print(f"Valor actualizado en {e-s}s")
         s = time.time()
@@ -135,7 +144,7 @@ def getComentarios():
         # Crea un diccionario para mostrar los datos
         renderDict = {}
         # Instancia la estructura a usar
-        estructura = encolador.encolar(10000)
+        estructura = encolador.encolar()
         # Instancia una cola para los comentarios
         estructura_com = FunctionalQueue()
         # Encola todos los comentarios
@@ -162,22 +171,28 @@ def getComentarios():
 
 
 # Obtener un comentario por su id
-@ app.route('/comentarios/<int:com_id>')
+@ app.route('/comentarios/<string:com_id>')
 def getComentario(com_id):
     if request.method == 'GET':
         # Instancia la estructura a usar
-        estructura = encolador.encolar(10000)
+        estructura = encolador.encolar()
         # Instancia una cola para los comentarios
         estructura_com = FunctionalQueue()
         # Encola todos los comentarios
         # Inicia el contador
         s = time.time()
-        for i in range(estructura.count()):
+        busqueda = estructura_com.find(com_id)
+
+        '''for i in range(estructura.count()):
             pregunta = estructura.dequeue()
-            questionComments = pregunta.getComentariosPregunta()
-            for j in range(questionComments.count()):
-                comentario = questionComments.dequeue()
-                estructura_com.enqueue(comentario)
+            if pregunta.getId() == int(com_id.split('.')[0]):
+                questionComments = pregunta.getComentariosPregunta()
+                for j in range(questionComments.count()):
+                    comentario = questionComments.dequeue()
+                    print(str(comentario.getId()).split('.')[1])
+                    if int(str(comentario.getId()).split('.')[1]) == int(com_id.split('.')[1]):
+                        busqueda = comentario'''
+
         # Detiene el contador
         e = time.time()
         print("Datos encolados en {}s".format(e-s))
@@ -185,11 +200,15 @@ def getComentario(com_id):
         # Busca el comentario
         s = time.time()
 
-        busqueda = estructura_com.buscarId(com_id)
+        # busqueda = estructura_com.buscarId(com_id)
         # Detiene el contador
         e = time.time()
-        print("Objeto encontrado en {}s".format(e-s))
-        return jsonify(busqueda.toJSON())
+        if busqueda != None:
+            print("Objeto encontrado en {}s".format(e-s))
+            return jsonify(busqueda.toJSON())
+        else:
+            print("Objeto no encontrado en {}s".format(e-s))
+            return "No encontrado"
 
     return ""
 
@@ -202,10 +221,11 @@ def postComentario(preg_id):
         # Solicita los datos del request (Eventualmente van a venir de una forma)
         requestData = request.get_json()
         # Encola los datos
-        estructura = encolador.encolar(10000)
+        estructura = encolador.encolar()
         # Solicita la creación de un nuevo comentario
         # Inicia el temporizador
         s = time.time()
+
         estructura.insercion(requestData, comment=True, idPregunta=preg_id)
         e = time.time()
         print(f'Valor añadido en {e-s}s')
@@ -221,10 +241,10 @@ def postComentario(preg_id):
 
 
 # Si se quiere Actualizar/Borrar una pregunta
-@ app.route('/comentarios/actualizar/<int:preg_id>/<int:com_id>', methods=['POST', 'PUT', 'DELETE'])
+@ app.route('/comentarios/actualizar/<int:preg_id>/<string:com_id>', methods=['POST', 'PUT', 'DELETE'])
 def actualizarComentario(preg_id, com_id):
     # Encola los datos
-    estructura = encolador.encolar(10000)
+    estructura = encolador.encolar()
     # Por ahora busca la pregunta en el archivo
     if request.method == 'PUT':
         # Solicita los datos del request (Eventualmente van a venir de una forma)
@@ -251,8 +271,7 @@ def actualizarComentario(preg_id, com_id):
         # Inicia el contador
         s = time.time()
         # Elimina el objeto
-        estructura.eliminar(idPregunta=preg_id, key=int(
-            str(preg_id)+str(com_id)), comment=True)
+        estructura.eliminar(idPregunta=preg_id, key=com_id, comment=True)
         # Detiene el contador
         e = time.time()
         print(f"Valor eliminado en {e-s}")
@@ -265,4 +284,5 @@ def actualizarComentario(preg_id, com_id):
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    port = int(os.environ.get('PORT', 5000))
+    app.run(debug=False, host='0.0.0.0', port=port)
