@@ -176,38 +176,17 @@ def getComentario(com_id):
     if request.method == 'GET':
         # Instancia la estructura a usar
         estructura = encolador.encolar()
+        busqueda = None
         # Instancia una cola para los comentarios
-        estructura_com = FunctionalQueue()
-        # Encola todos los comentarios
-        # Inicia el contador
-        s = time.time()
-        busqueda = estructura_com.find(com_id)
-
-        '''for i in range(estructura.count()):
+        for i in range(estructura.count()):
             pregunta = estructura.dequeue()
             if pregunta.getId() == int(com_id.split('.')[0]):
                 questionComments = pregunta.getComentariosPregunta()
-                for j in range(questionComments.count()):
-                    comentario = questionComments.dequeue()
-                    print(str(comentario.getId()).split('.')[1])
-                    if int(str(comentario.getId()).split('.')[1]) == int(com_id.split('.')[1]):
-                        busqueda = comentario'''
+                busqueda = questionComments.find(com_id)
 
-        # Detiene el contador
-        e = time.time()
-        print("Datos encolados en {}s".format(e-s))
-
-        # Busca el comentario
-        s = time.time()
-
-        # busqueda = estructura_com.buscarId(com_id)
-        # Detiene el contador
-        e = time.time()
         if busqueda != None:
-            print("Objeto encontrado en {}s".format(e-s))
             return jsonify(busqueda.toJSON())
         else:
-            print("Objeto no encontrado en {}s".format(e-s))
             return "No encontrado"
 
     return ""
