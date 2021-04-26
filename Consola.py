@@ -51,8 +51,7 @@ class Fetcher():
 
 user = True
 menu = """Bienvenido a Q&A UNAL.\n¿Qué desea hacer?\n1. Ver todas las preguntas\n2. Buscar pregunta por texto\n3. Añadir una nueva pregunta.\n4. Actualizar una pregunta\n5. Eliminar una pregunta\n6. Ver todos los comentarios\n7. Ver un comentario por su ID\n8. Añadir un comentario.\n9. Actualizar un comentario\n10. Eliminar un comentario\n11. Salir"""
-#fetcher = Fetcher('https://qaunalapi.herokuapp.com/')
-fetcher = Fetcher('http://localhost:5000')
+fetcher = Fetcher('https://qaunalapi.herokuapp.com/')
 while user:
     print(menu)
     choice = int(input())
