@@ -4,7 +4,7 @@ Este proyecto pretende crear una aplicacion web propia de la Universidad Naciona
 Dentro de este repositorio se encuentran los directorios:
 
 #### src
-Carpeta en la que se se incluyen los codigos de codigo fuente del proyecto
+Carpeta en la que se se incluyen los codigos de codigo fuente del proyecto. Se incluyen los codigos asociados a las estructuras probadas y los codigos asociados al despliegue de la plataforma como rest API, y su respectiva conexion con la consola, como primera entrega de este proyecto.
 
 #### docs 
 En esta carpeta contiene los documento de desarrollo del proyecto tal como
@@ -19,8 +19,7 @@ En esta carpeta se encuentran contenidos los datos de prueba de la aplicacion, 1
 En esta carpeta se encuentra el documento requirement.txt con las librerias necesarias para la ejecucion de este proyecto. Se utiliza el comando pip install requirements.txt
 
 
-
-## Integrantes
+### Integrantes
 Los integrantes de este proyecto son:
 
 * **Ana Isabella Goyeneche Fonseca**
