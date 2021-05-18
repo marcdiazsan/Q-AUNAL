@@ -1,4 +1,4 @@
-#NOTA SOBRE EL FRONT
+# NOTA SOBRE EL FRONT
 En este momento esta corriendo de forma independiente al back. Estoy corriendo APIQueue.py como back en el localhost, en el puerto 5000. El front esta corriend en el localhost, puerto 8000, y haciendo llamadas a este back. Para correr el front, se usa API.py que esta en src/frontEnd.
 
 Como nota adicional, para poder hacer llamadas a este back (y a cualquier otro si se mantiene separado front y back) es necesario modificar el CORS del back. La ruta /preguntas del back muestra como se encuentra esta modificacion, es necesario usar la libreria flask-cors y agregarle los headers tal y como se muestra en esta ruta
