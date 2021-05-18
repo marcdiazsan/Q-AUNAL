@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, render_template
 import json
 import time
 from Preguntas import *
@@ -7,14 +7,19 @@ from FunctionalQueue import FunctionalQueue
 from Encolador import Encolador
 from datetime import datetime
 import os
+from flask_cors import CORS, cross_origin
 
 
 app = Flask(__name__)
+CORS(app)
 
 
 # Encolar todos los datos una vez se inicie la app
 encolador = Encolador()
 
+@app.route('/', methods=['GET'])
+def test():
+    return render_template('index.html')
 
 @app.route('/preguntas', methods=['GET'])
 def getPreguntas():
@@ -34,7 +39,10 @@ def getPreguntas():
         e = time.time()
         # Detiene el contador
         print("{} datos desencolados en {}s".format(estructura.count(), e-s))
-    return jsonify(renderDict)
+
+    response = jsonify(renderDict)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
 
 
 # Obtener una pregunta por su identificador (Uso colas-pilas)

@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block head %} 
+    <title>Q&AUNAL</title>
+    <!-- Core theme CSS (includes Bootstrap)-->
+{% endblock %}
+
+{% block body %} 
+<img src="https://drive.google.com/thumbnail?id=190P6onL12bqOq3uFFBLu_-HnOqUGE1AL" alt="Q&AUNAL-Logo" style="position: fixed; top: 10px; left: 10px;" width="250" height="250">
+<button type="button" class="btn btn-outline-primary custom-btn" style="position: fixed; top: 270px; left: 40px;"><i class="fa fa-question fa-lg fa-fw" aria-hidden="true"></i>Preguntar</button>
+<button type="button" class="btn btn-outline-primary custom-btn" style="position: fixed; top: 340px; left: 40px;"><i class="fa fa-handshake-o fa-fw" aria-hidden="true"></i>Responder</button>
+<button type="button" class="btn btn-outline-primary custom-btn" style="position: fixed; top: 410px; left: 40px;"><i class="fa fa-sticky-note fa-lg fa-fw" aria-hidden="true"></i>Consultar</button>
+<div class="card special-card tar" style="width: 57rem; position: fixed; top: 40px; left: 360px;">
+    <p class="formfield tar">
+        <label style="color: white;"><b>Titulo</b></label>
+        <input type="text">
+    </p>
+
+    <p class="formfield tar">
+        <label style="color: white;"><b>Etiqueta</b></label>
+        <input type="text">
+    </p>
+    <br>
+    <p class="formfield tar">
+        <label style="color: white;"><b>Cuerpo</b></label>
+        <textarea type="text" style="height: 280px; width: 670px;"></textarea>
+    </p>
+    <br>
+    <div class="move tar">
+        <button type="button" class="btn btn-warning custom-btn" style="position: relative; right: 0;">Ok</button>
+    </div>
+    
+</div>
+<h1 style="position: absolute; bottom: 20px;left: 400px;">Todas las respuestas para la comunidad UN</h1>
+{% endblock %}

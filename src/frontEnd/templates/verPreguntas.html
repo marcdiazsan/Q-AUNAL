@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+
+{% block head %} 
+    <title>Test</title>
+    <!-- Core theme CSS (includes Bootstrap)-->
+{% endblock %}
+
+{% block body %} 
+<div id="wrap">
+<img src="https://drive.google.com/thumbnail?id=190P6onL12bqOq3uFFBLu_-HnOqUGE1AL" alt="Q&AUNAL-Logo" style="position: fixed; top: 10px; left: 10px;" width="250" height="250">
+<button type="button" class="btn btn-outline-primary custom-btn" style="position: fixed; top: 270px; left: 40px;"><i class="fa fa-question fa-lg fa-fw" aria-hidden="true"></i>Preguntar</button>
+<button type="button" class="btn btn-outline-primary custom-btn active" style="position: fixed; top: 340px; left: 40px;"><i class="fa fa-handshake-o fa-fw" aria-hidden="true"></i>Responder</button>
+<button type="button" class="btn btn-outline-primary custom-btn" style="position: fixed; top: 410px; left: 40px;"><i class="fa fa-sticky-note fa-lg fa-fw" aria-hidden="true"></i>Consultar</button>
+<div class="card special-card tar overflow-auto" id ="wrap2" style="width: 57rem ;position: fixed; top: 40px; left: 360px;">
+    <div id="newQuestion">
+        <div class="card question-card">
+            <div class="container">
+                <div class="align-left" style="width: 40rem">
+                    <p class="tar2"><b>Recibo de Pago</b></p>
+                </div>
+                <div class="align-right" style="width: 7rem">
+                    <p style="font-size: 22px; color: red; text-align: right;">[cerrado]</p>
+                </div>
+            </div>
+            <div style="width: 100%;">
+                <p style="font-size: 17px; text-align: left;"> No me queda clara la fecha limite para el pago del segundo fraccionamiento de matricula ¿Alguien sabe si se puede pagar el segundo y tercer fraccionamiento de una vez?</p>
+            </div>
+            <div class="align-left" style="width: 100%">
+                <p style="font-size: 18px; text-align: left;"><b># limite, recibo, pago </b></p>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div id ="container" class="align-left" style="width: 25rem; text-align: left;">
+                        <div class="align-left" style="height: 100%;"><p style="height:100%; font-size: 15px;"><b>09-04-21</b></p></div>
+                        <div class="align-right" style="height: 100%;"><p style="height:100%; font-size: 15px;"><b>@marcdiazsan</b></p></div>
+                        <div class="align-center" style="height: 100%;"><p style=" height:100%; font-size: 15px;"><b>15:45</b></p></div>
+                    </div>      
+                    <div class="align-center" style="width: 8rem;">
+                        <button type="button" id="likes-0" name="0" class="btn btn-link btn-lg"><i class="fa fa-thumbs-o-up fa-fw" aria-hidden="true"></i>3</button>
+                    </div>                
+                    <div class="align-right" style="width: 10rem;">
+                        <button type="button" id="res-0" name="0"class="btn btn-success"><i class="fa fa-check-square fa-fw" aria-hidden="true"></i>Responder</button>
+                    </div>
+                </div>
+            </div> 
+        </div>
+        <br>
+        
+    </div>
+</div>
+<h1 style="position: absolute; bottom: 20px;left: 400px;">Todas las respuestas para la comunidad UN</h1>
+</div>
+{% endblock %}
+
+{% block code %}
+<script type="text/javascript"> 
+    var resp = null; 
+
+    function addQuestion(question, id){
+        if(question[2]=="Abierto"){
+            var codeStatus = '<p style="font-size: 23px; color: green; text-align: right;">[Abierto]</p>';
+        }else{
+            var codeStatus = '<p style="font-size: 23px; color: red; text-align: right;">[Cerrado]</p>';
+        }
+
+        var codeTitle = '<div class="container"><div class="align-left" style="width: 40rem"><p class="tar2"><b>'+question[7]+'</b></p></div><div class="align-right" style="width: 7rem">'+codeStatus+'</div></div>';
+        var codeText = '<div style="width: 100%;"><p style="font-size: 17px; text-align: left;">'+ question[6]+'</p></div><div class="align-left" style="width: 100%"><p style="font-size: 18px; text-align: left;"><b>#'+question[5] +'</b></p></div>';
+        
+        var sDate = question[1].split(" ");
+        var sHour = sDate[1].split(":");
+
+        var codeDate = '<div id ="container" class="align-left" style="width: 25rem; text-align: left;"><div class="align-left" style="height: 100%;"><p style="height:100%; font-size: 15px;"><b>'+sDate[0]+'</b></p></div><div class="align-right" style="height: 100%;"><p style="height:100%; font-size: 15px;"><b>'+question[8]+'</b></p></div><div class="align-center" style="height: 100%;"><p style=" height:100%; font-size: 15px;"><b>'+sHour[0]+':'+sHour[1]+'</b></p></div></div>';
+        var codeButtons = '<div class="align-center" style="width: 8rem;"><button type="button" id="likes-'+id+'" name="'+id+'" class="btn btn-link btn-lg"><i class="fa fa-thumbs-o-up fa-fw" aria-hidden="true"></i>'+question[3]+'</button></div> <div class="align-right" style="width: 10rem;"><button type="button" id="res-'+id+'" name="'+id+'"class="btn btn-success"><i class="fa fa-check-square fa-fw" aria-hidden="true"></i>Responder</button></div>';
+
+        var codeLastRow = '<div class="container"><div class="row">'+codeDate+codeButtons+'</div></div>';
+
+        var fullCode = '<div class="card question-card">'+codeTitle+codeText+codeLastRow+'</div><br>';
+
+        document.getElementById("newQuestion").innerHTML += fullCode;
+    }
+
+    function myFunction(){
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", "http://0.0.0.0:5000/preguntas");
+      xhr.send();
+      xhr.onload = function() {
+        var myObject = xhr.responseText;
+        var json = JSON.parse(xhr.responseText);
+        resp = json;
+        var numeros = [1,2,3,4,5,6,7,8,9,10];
+        for (id in numeros){
+            var quest = Object.values(Object.values(json)[id]);
+            addQuestion(quest,id);
+        }
+      };
+  
+      xhr.onerror = function() { // solo se activa si la solicitud no se puede realizar
+        console.log("request error");
+      };
+  
+      xhr.onprogress = function(event) { // se dispara periódicamente
+        console.log("Recibido"+event.loaded+"of" +event.total);
+        };
+
+    }
+    function yAdder(){
+        var wrapper = document.getElementById("wrap2");
+        var content = document.getElementById("newQuestion");
+        if(wrapper.scrollTop+wrapper.offsetHeight>content.offsetHeight){
+            console.log('test');
+            while (true){
+                var quest = Object.values(Object.values(resp)[numero]);
+                console.log(numero);
+                addQuestion(quest,numero);
+                numero+=1;
+                if(numero%10!=0){
+                    break;
+                }
+            }
+        }
+    }
+
+    function addEvent(obj,ev,fn) {
+        if(obj.addEventListener) obj.addEventListener(ev,fn,false);
+        else if(obj.attachEvent) obj.attachEvent("on"+ev,fn);    
+    }
+
+    var numero=10;
+
+    var wrap = document.getElementById("wrap2");
+    addEvent(wrap,"scroll",yAdder);
+
+</script>
+{% endblock %}
