@@ -13,7 +13,7 @@ class DataCreator():
         # Write to file
         fake = Faker("en_US")
         temas = ["Ingenieria", "Artes", "Ciencias", "Ciencias Agrarias", "Ciencias Economicas", "Ciencias Humanas", "Derecho, Ciencias Politicas y Sociales", "Enfermeria", "Medicina", "Medicina Veterinaria y de Zootecnia", "Odontologia"]
-        estatus = ["Activo", "Cerrado"]
+        estatus = [True,False]
         fecha = datetime.now() - timedelta(468)
         duracion = preguntas//468
         data = {}
@@ -22,10 +22,10 @@ class DataCreator():
                 fecha += timedelta(1)
             pregunta = {"preg_id": i, "titulo": "Titulo {}".format(i), "texto": fake.sentence(), "date": str(fecha), "tema": random.choice(temas), "userid": randint(1, 200), "likes": randint(0, 100), "estatus": random.choice(estatus), "comments": []}
             for j in range(1, comentarios):
-                comentario = {"com_id": str(i) + "."+str(j), "texto": fake.sentence(), "date": str(fecha), "userid": randint(1, 200), "likes": randint(0, 100), "util": "True", "preg_id": i}
+                comentario = {"com_id": str(i) + "."+str(j), "texto": fake.sentence(), "date": str(fecha), "userid": randint(1, 200), "likes": randint(0, 100), "util": random.choice(estatus) , "preg_id": i}
                 pregunta["comments"].append(comentario)
             data[i] = pregunta
-        JSONData = open('JSON10MILLONESData.json', 'w')
+        JSONData = open('JSON100MILLONData.json', 'w')
         JSONData.write(json.dumps(data))
         JSONData.close()
         return True
