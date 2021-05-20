@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="content-section ">
+    <form method="POST" action="">
+        {{ forma.hidden_tag() }}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4">Unete a QA UNAL</legend>
+
+            <div class="form-group">
+                {{ forma.email.label(class="form-control-label") }}
+
+                {% if forma.email.errors %}
+                {{ forma.email(class="form-control form-control-lg is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in forma.email.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ forma.email(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                {{ forma.password.label(class="form-control-label") }}
+                {% if forma.password.errors %}
+                {{ forma.password(class="form-control form-control-lg is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in forma.password.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ forma.password(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+
+            <div class="form-check">
+                {{ forma.remember(class="form-check-input") }}
+                {{ forma.remember.label(class="form-check-label") }}
+            </div>
+
+        </fieldset>
+
+        <div class="form-group">
+            {{ forma.submit(class="btn btn-outline-info") }}
+        </div>
+
+        <small class="text-muted ml-2">
+            <a href="#">Olvidaste tu contraseña? Nosotros te ayudamos! </a>
+        </small>
+
+    </form>
+    <div class="border-top pt-3">
+        <small class="text-muted">
+            Si todavía no tienes una cuenta <a class="ml-2" href="{{ url_for('registroUsuario') }}">Registrate</a>
+        </small>
+    </div>
+</div>
+{% endblock content %}

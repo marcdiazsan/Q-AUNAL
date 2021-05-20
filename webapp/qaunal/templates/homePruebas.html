@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+{% for pregunta in preguntas %}
+<article class="media content-section">
+    <div class="media-body">
+        <div class="article-metadata">
+            <a class="mr-2" href="#">{{ pregunta.autor }}</a>
+            <small class="text-muted">{{ pregunta.date }}</small>
+        </div>
+        <h2>
+            <a class="article-title" href="#">{{ pregunta.titulo }}</a>
+        </h2>
+        <p class="article-content">{{ pregunta.texto }}</p>
+        <a href="#"><small class="text-muted">{{ pregunta.likes }}</small></a>
+    </div>
+</article>
+{% endfor %}
+
+{% endblock content %}

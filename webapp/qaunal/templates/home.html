@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+    {% set ns = namespace(current=preguntas.getHead()) %}
+    {% for i in range(size) %}
+        {% if ns.current %}
+        <article class="media content-section">
+            <div class="media-body">
+                <div class="article-metadata">
+                    <a class="mr-2" href="#">{{ ns.current.getData().autor.nombre }}</a>
+                    <small class="text-muted">{{ ns.current.getData().date_created.strftime('%Y-%m-%d') }}</small>
+                </div>
+                <h2>
+                    <a class="article-title" href="{{ url_for('pregunta', preg_id=ns.current.getData().id) }}">{{ ns.current.getData().titulo }}</a>
+                </h2>
+                <p class="article-content">{{ ns.current.getData().contenido }}</p>
+                <small class="text-muted">{{ ns.current.getData().likes }}</small>
+                <small class="text-muted" href="{{ url_for('postComentario', preg_id=ns.current.getData().id) }}">Comentar</small>
+            </div>
+        </article>
+        {% endif %}
+        {% set ns.current = ns.current.getNext() %}
+    {% endfor %}
+{% endblock content %}

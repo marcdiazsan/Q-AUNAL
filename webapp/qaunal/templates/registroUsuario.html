@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="content-section">
+        <form method="POST" action="">
+            {{ forma.hidden_tag() }}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Unete a QA UNAL</legend>
+                <div class="form-group">
+                    {{ forma.nombre.label(class="form-control-label") }}
+
+                    {% if forma.nombre.errors %}
+                        {{ forma.nombre(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in forma.nombre.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ forma.nombre(class="form-control form-control-lg") }}
+                    {% endif %}
+
+                </div>
+                
+                <div class="form-group">
+                    {{ forma.email.label(class="form-control-label") }}
+                    
+                    {% if forma.email.errors %}
+                    {{ forma.email(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in forma.email.errors %}
+                        <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                        {{ forma.email(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                
+                <div class="form-group">
+                    {{ forma.password.label(class="form-control-label") }}
+                    {% if forma.password.errors %}
+                    {{ forma.password(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in forma.password.errors %}
+                        <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                        {{ forma.password(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                
+                <div class="form-group">
+                    {{ forma.password_confirmation.label(class="form-control-label") }}
+                    {{ forma.password_confirmation.label(class="form-control-label") }}
+                    {% if forma.password_confirmation.errors %}
+                    {{ forma.password(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in forma.password_confirmation.errors %}
+                        <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                        {{ forma.password_confirmation(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+            </fieldset>
+
+            <div class="form-group">
+                {{ forma.submit(class="btn btn-outline-info") }}
+            </div>
+        </form>
+        <div class="border-top pt-3">
+            <small class="text-muted">
+                Si ya tienes una cuenta, mejor <a class="ml-2" href="{{ url_for('iniciarSesion') }}">Inicia Sesion</a>
+            </small>
+        </div>
+    </div>
+{% endblock content %}
