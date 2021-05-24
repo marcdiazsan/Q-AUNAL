@@ -1,9 +1,27 @@
 .content-section {
-  background: #ffffff;
-  padding: 10px 20px;
+  background: rgba(255, 255, 255, 0.8);
+  padding: 30px 20px;
   border: 1px solid #dddddd;
   border-radius: 3px;
-  margin-bottom: 20px;
+  margin: 10px 0px;
+}
+
+#login-content {
+  background: rgba(255, 255, 255, 0.7) !important;
+  border: 1px solid gray;
+  border-radius: 25px;
+}
+
+#navbar-t {
+  background-color: transparent !important;
+}
+
+#footer-login {
+  margin-top: 10px;
+}
+#footer-login h5 {
+  color: white;
+  text-align: center;
 }
 
 .article-title {
@@ -28,7 +46,15 @@ a.article-title:hover {
 .article-metadata {
   padding-bottom: 1px;
   margin-bottom: 4px;
-  border-bottom: 1px solid #e3e3e3
+  border-bottom: 1px solid #e3e3e3;
+}
+
+.nav-logo-login {
+  width: 10%;
+}
+
+.form-group legend {
+  text-align: center;
 }
 
 .article-metadata a:hover {
@@ -51,4 +77,42 @@ a.article-title:hover {
 
 .account-heading {
   font-size: 2.5rem;
+}
+
+.main-logo img {
+  width: 70%;
+  height: 70%;
+}
+
+.main-logo {
+  display: flex;
+  justify-content: center;
+}
+
+.main-text p {
+  text-align: center;
+  color: white;
+}
+
+.main-buttons {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.main-buttons button {
+  padding: 10px 0px;
+  margin: 10px 00px;
+  width: 80%;
+  margin: 10% 0px;
+  justify-content: center;
+}
+
+main {
+  height: 100%;
+}
+
+#aside {
+  background-color: transparent;
+  border: none;
 }

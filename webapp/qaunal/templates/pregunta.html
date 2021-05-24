@@ -16,7 +16,7 @@
         <h2 class="article-title">{{ pregunta.titulo }}</h2>
         <p class="article-content">{{ pregunta.contenido }}</p>
         <small class="text-muted"><a class='article-title' href="{{ url_for('likePregunta', preg_id=pregunta.id) }}">{{ pregunta.likes }}</a></small>
-        <small class="text-muted"><a class="article-title" href="{{ url_for('postComentario', preg_id=pregunta.id) }}">Comentar</a></small>
+        <small class="text-muted"><a class="article-title" href="{{ url_for('postComentario', preg_id=pregunta.id) }}">Comentarios</a></small>
     </div>
 </article>
 <!--Render comentarios-->

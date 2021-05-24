@@ -12,28 +12,34 @@
     <!-- CSS propio -->
     <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}" type="text/css">
 
-
     {% if titulo %}
     <title>Q&A UNAL - {{ titulo }}</title>
     {% else %}
     <title>Q&A UNAL</title>
     {% endif %}
+    <style>
+        body {
+            background-image: url("{{ url_for('static', filename='img/FondoTest.jpg') }}");
+            background-attachment: fixed; /*Hace que la imagen quede fija y no se mueva con el contenedor*/
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+    </style>
 </head>
 
 <body>
     <header class="site-header">
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <a class="navbar-brand" href="#">Q&A UNAL</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03"
-                aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-        
-            <div class="collapse navbar-collapse" id="navbarColor03">
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
                         <a class="nav-link" href="{{ url_for('dashboardPrincipal') }}">Inicio
-                            <span class="sr-only">(current)</span>
+                           <span class="sr-only">(current)</span>
                         </a>
                     </li>
                     <li class="nav-item">
@@ -46,22 +52,35 @@
                         <a class="nav-link" href="{{ url_for('sobre') }}">Sobre</a>
                     </li>
                 </ul>
-            </div>
-            <div class="navbar-nav">
-                {% if current_user.is_authenticated %}
-                    <a class="nav-item nav-link" href="{{ url_for('nuevaPregunta') }}">Nueva Pregunta</a>
-                    <a class="nav-item nav-link" href="{{ url_for('miCuenta') }}">Mi Cuenta</a>
-                    <a class="nav-item nav-link" href="{{ url_for('cerrarSesion') }}">Cerrar Sesión</a>
-                {% else %}
-                    <a class="nav-item nav-link" href="{{ url_for('iniciarSesion') }}">Iniciar Sesión</a>
-                    <a class="nav-item nav-link" href="{{ url_for('registroUsuario') }}">Registrarse</a>
-                {% endif %}
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-item nav-link" href="{{ url_for('iniciarSesion') }}">Iniciar Sesión</a>
+                    </li>
+                </ul>
+                <form class="form-inline my-2 my-lg-0">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
+                </form>
             </div>
         </nav>
     </header>
-    <main role="main" class="container">
+    <main role="main" class="container-fluid">
         <div class="row">
-            <div class="col-md-8 mt-5">
+            <div class="col-md-3 ">
+                <div class="content-section" id="aside">
+                    <section class="main-logo">
+                        <img src="{{ url_for('static', filename='img/logo.png') }}" alt="">
+                    </section>
+                    <section class="main-buttons">
+                        <button type="button" class="btn btn-dark">Preguntar</button>
+                        <button type="button" class="btn btn-dark">Consultar</button>
+                    </section>
+                    <section class="main-text">
+                        <p>Todas las respuestas para la comunidad UN</p>
+                    </section>
+                </div>
+            </div>
+            <div class="col-md-9">
                 {% with mensajes = get_flashed_messages(with_categories = True) %}
                     {% if mensajes %}
                         {% for (categoria, mensaje) in mensajes %}
@@ -72,19 +91,6 @@
                     {% endif %}
                 {% endwith %}
                 {% block content %}{% endblock %}
-            </div>
-            <div class="col-md-4 mt-5">
-                <div class="content-section">
-                    <h3>Our Sidebar</h3>
-                    <p class='text-muted'>You can put any information here you'd like.
-                    <ul class="list-group">
-                        <li class="list-group-item list-group-item-light">Latest Posts</li>
-                        <li class="list-group-item list-group-item-light">Announcements</li>
-                        <li class="list-group-item list-group-item-light">Calendars</li>
-                        <li class="list-group-item list-group-item-light">etc</li>
-                    </ul>
-                    </p>
-                </div>
             </div>
         </div>
     </main>
