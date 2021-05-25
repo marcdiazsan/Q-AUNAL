@@ -4,8 +4,7 @@
     <form method="POST" action="">
         {{ forma.hidden_tag() }}
         <fieldset class="form-group">
-            <legend class="border-bottom mb-4">¿Sabes la respuesta?</legend>
-
+            <legend class="border-bottom border-secondary mb-4">¿Sabes la respuesta?</legend>
             <div class="form-group">
                 {{ forma.contenido.label(class="form-control-label") }}
                 {% if forma.contenido.errors %}

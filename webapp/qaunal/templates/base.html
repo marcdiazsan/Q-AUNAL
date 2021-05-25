@@ -30,7 +30,7 @@
 <body>
     <header class="site-header">
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <a class="navbar-brand" href="#">Q&A UNAL</a>
+            <a class="navbar-brand" href="{{ url_for('dashboardPrincipal') }}">Q&A UNAL</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -53,7 +53,7 @@
                     </li>
                 </ul>
                 {% if current_user.is_authenticated %}
-                <ul class="navbar-nav ml-auto">
+                <ul class="navbar-nav ml-auto mr-2">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown"
                             aria-haspopup="true" aria-expanded="false">
@@ -66,7 +66,7 @@
                     </li>
                 </ul>
                 {% else %}
-                <ul class="navbar-nav ml-auto">
+                <ul class="navbar-nav ml-auto mr-2">
                     <li class="nav-item">
                         <a class="nav-item nav-link" href="{{ url_for('iniciarSesion') }}">Iniciar Sesión</a>
                     </li>
@@ -87,8 +87,8 @@
                         <img src="{{ url_for('static', filename='img/logo.png') }}" alt="">
                     </section>
                     <section class="main-buttons">
-                        <button type="button" class="btn btn-dark">Preguntar</button>
-                        <button type="button" class="btn btn-dark">Consultar</button>
+                        <a href="{{ url_for('nuevaPregunta') }}" class="btn btn-dark btn-lg active" role="button" aria-pressed="true">Preguntar</a>
+                        <a href="#" class="btn btn-dark btn-lg active" role="button" aria-pressed="true">Consultar</a>
                     </section>
                     <section class="main-text">
                         <p>Todas las respuestas para la comunidad UN</p>
