@@ -1,3 +1,4 @@
+from flask.app import Flask
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, SelectField, TextAreaField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
@@ -60,3 +61,11 @@ class CreateCommentForm(FlaskForm):
     contenido = TextAreaField('Contenido', validators=[DataRequired(
         message='Este campo es obligatorio'), Length(min=2)])
     submit = SubmitField('Añadir Comentario')
+
+class BusquedaTexto(FlaskForm):
+    textoBusqueda = StringField('Busqueda', validators=[Length(min=1)])
+    submit = SubmitField('Buscar')
+
+class BusquedaTag(FlaskForm):
+    textoEtiqueta = StringField('Busqueda', validators=[Length(min=1)])
+    submit = SubmitField('Filtrar')

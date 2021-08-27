@@ -2,7 +2,7 @@ from qaunal.estructuras import SLL_Stack
 from flask import jsonify, request, render_template, url_for, flash, redirect, abort
 from qaunal import app, db, bcrypt
 from qaunal.models import User, Pregunta, Comentario
-from qaunal.forms import RegistrationForm, LoginForm, CreateQuestionForm, CreateCommentForm
+from qaunal.forms import RegistrationForm, LoginForm, CreateQuestionForm, CreateCommentForm, BusquedaTag, BusquedaTexto
 from flask_login import login_user, current_user, logout_user, login_required
 from qaunal.estructuras import SLL_Stack, RabinKarpMatcher
 
@@ -195,20 +195,44 @@ def likeComentario(com_id):
 
 @app.route('/busqueda', methods=['GET', 'POST'])
 def busqueda():
-    return render_template('busquedaPruebas.html', titulo='Buscar')
+    formaTexto = BusquedaTexto()
+    formaEtiqueta = BusquedaTag()
+    # Busqueda por texto
+    if formaTexto.validate_on_submit():
+        query = formaTexto.textoBusqueda.data
+        page = request.args.get('page', default=1, type=int)
+        preguntas = Pregunta.query.filter(Pregunta.titulo.contains(
+        query) | Pregunta.contenido.contains(query)).paginate(page=page, per_page=10)
+        return render_template('resultados.html', titulo='Resultados Busqueda', preguntas=preguntas)
+    # Verificacion etiquetas
+    if formaEtiqueta.validate_on_submit():
+        tags = ["Artes","Ciencias","Ciencias Agrarias","Ciencias Economicas","Ciencias Humanas","Derecho, Ciencias Políticas y Sociales","Enfermeria","Ingenieria","Medicina","Medicina Veterinaria y de Zootecnia","Odontologia"]
+        if formaEtiqueta.textoEtiqueta.data not in tags:
+            rabinKarpMatcher = RabinKarpMatcher()
+            matches = rabinKarpMatcher.compareToTags(formaEtiqueta.textoEtiqueta.data)
+            try:
+                query = matches[0]
+            except:
+                return render_template('resultados.html', titulo='Resultados Busqueda', preguntas=None)
 
-@app.route('/busqueda_tag', methods=['GET', 'POST'])
-def busquedaTag():
-    return render_template('busquedaPruebas.html', titulo='Buscar')
-
-
-@app.route('/busquedaGeneral', methods=['GET', 'POST'])
-def busquedaGeneral():
-    return render_template('busquedaPruebas.html', titulo='Buscar')
+            page = request.args.get('page', default=1, type=int)
+            preguntas = Pregunta.query.filter(Pregunta.etiquetas.contains(
+                query)).paginate(page=page, per_page=10)
+            return render_template('resultados.html', titulo='Resultados Busqueda', preguntas=preguntas)
+        else:
+            query = formaEtiqueta.textoEtiqueta.data
+            page = request.args.get('page', default=1, type=int)
+            preguntas = Pregunta.query.filter(Pregunta.etiquetas.contains(
+                query)).paginate(page=page, per_page=10)
+            return render_template('resultados.html', titulo='Resultados Busqueda', preguntas=preguntas)
+        
+    
+    return render_template('buscar.html', titulo='Buscar', formaTexto=formaTexto, formaEtiqueta=formaEtiqueta)
+    
 
 @ app.route('/cerrar_sesion', methods=['GET', 'POST'])
 def cerrarSesion():
-    logout_user()
+    logout_user()       
     return redirect(url_for('iniciarSesion'))
 
 @app.route('/usuario/preguntas')

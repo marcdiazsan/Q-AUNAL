@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="row">
+        <div class="col col-lg-6 col-md-8 col-12 offset-md-2 offset-lg-3">
+            <div class="content-section" id="login-content">
+                <form method="POST" action="">
+                    {{ formaTexto.hidden_tag() }}
+                    <fieldset class="form-group">
+                        <legend class="border-bottom mb-4">Busca por contenido o autor</legend>
+                        <div class="form-group">
+                            {{ formaTexto.textoBusqueda.label(class="form-control-label") }} {% if
+                            formaTexto.textoBusqueda.errors %} {{ formaTexto.textoBusqueda(class="form-control
+                            form-control-lg is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in formaTexto.textoBusqueda.errors %}
+                                <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                            {% else %} {{ formaTexto.textoBusqueda(class="form-control
+                            form-control-lg") }} {% endif %}
+                        </div>
+                    </fieldset>
+    
+                    <div class="form-group">
+                        {{ formaTexto.submit(class="btn btn-outline-info") }}
+                    </div>
+    
+        
+                </form>
+                <form method="POST" action="">
+                    {{ formaEtiqueta.hidden_tag() }}
+                    <fieldset class="form-group">
+                        <legend class="border-bottom mb-4">Busca por etiqueta</legend>
+                        <div class="form-group">
+                            {{ formaEtiqueta.textoEtiqueta.label(class="form-control-label") }} {% if
+                            formaEtiqueta.textoEtiqueta.errors %} {{ formaEtiqueta.textoEtiqueta(class="form-control
+                            form-control-lg is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in formaEtiqueta.textoEtiqueta.errors %}
+                                <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                            {% else %} {{ formaEtiqueta.textoEtiqueta(class="form-control
+                            form-control-lg") }} {% endif %}
+                        </div>
+                    </fieldset>
+                
+                    <div class="form-group">
+                        {{ formaTexto.submit(class="btn btn-outline-info") }}
+                    </div>
+                
+                
+                </form>
+{% endblock content %}
