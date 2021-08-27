@@ -196,7 +196,7 @@ def likeComentario(com_id):
 @app.route('/busqueda', methods=['GET'])
 def busqueda():
     
-    return "Busqueda"
+    return render_template('buscar.html', titulo='Buscar')
 
 
 @ app.route('/cerrar_sesion', methods=['GET', 'POST'])
@@ -209,4 +209,5 @@ def misPreguntas():
     page = request.args.get('page', default=1, type=int)
     user = User.query.filter_by(id=current_user.id).first_or_404()
     preguntas = Pregunta.query.filter_by(autor=user).paginate(page=page, per_page=10)
-    return render_template('home.html', titulo='Inicio', preguntas=preguntas)
+    print(preguntas)
+    return render_template('userQuestions.html', titulo='Inicio', preguntas=preguntas)

@@ -73,7 +73,7 @@
               >
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Buscar</a>
+              <a class="nav-link" href="{{ url_for('busqueda') }}">Buscar</a>
             </li>
           </ul>
           {% if current_user.is_authenticated %}
