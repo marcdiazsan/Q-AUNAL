@@ -4,7 +4,7 @@ from qaunal import app, db, bcrypt
 from qaunal.models import User, Pregunta, Comentario
 from qaunal.forms import RegistrationForm, LoginForm, CreateQuestionForm, CreateCommentForm
 from flask_login import login_user, current_user, logout_user, login_required
-from qaunal.estructuras import SLL_Stack
+from qaunal.estructuras import SLL_Stack, RabinKarpMatcher
 
 @app.route('/')
 def dashboardPrincipal():
@@ -193,16 +193,23 @@ def likeComentario(com_id):
     db.session.commit()
     return redirect(url_for('pregunta', preg_id=comentario.pregunta_id))
 
-@app.route('/busqueda', methods=['GET'])
+@app.route('/busqueda', methods=['GET', 'POST'])
 def busqueda():
-    
-    return render_template('buscar.html', titulo='Buscar')
+    return render_template('busquedaPruebas.html', titulo='Buscar')
 
+@app.route('/busqueda_tag', methods=['GET', 'POST'])
+def busquedaTag():
+    return render_template('busquedaPruebas.html', titulo='Buscar')
+
+
+@app.route('/busquedaGeneral', methods=['GET', 'POST'])
+def busquedaGeneral():
+    return render_template('busquedaPruebas.html', titulo='Buscar')
 
 @ app.route('/cerrar_sesion', methods=['GET', 'POST'])
 def cerrarSesion():
     logout_user()
-    return redirect(url_for('sobre'))
+    return redirect(url_for('iniciarSesion'))
 
 @app.route('/usuario/preguntas')
 def misPreguntas():

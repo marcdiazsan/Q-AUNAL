@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+<form>
+    <fieldset>
+        <legend>Busquedas</legend>
+        <div class="form-group row">
+            <label for="staticEmail" class="col-sm-2 col-form-label">Busca cualquier cosa</label>
+        </div>
+        <div class="form-group">
+            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                placeholder="Tu busqueda">
+        </div>
+    </fieldset>
+</form>
+<form>
+    <fieldset>
+        <legend>Etiquetas</legend>
+        <div class="form-group row">
+            <label for="staticEmail" class="col-sm-2 col-form-label">Busca etiquetas</label>
+        </div>
+        <div class="form-group">
+            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                placeholder="Etiqueta">
+        </div>
+    </fieldset>
+</form>
+{% endblock content %}

@@ -176,3 +176,58 @@ class SLL_Queue(SinglyLinkedList):
 
         self.__rear.setNext(newNode)
         self.__rear = newNode
+
+
+class RabinKarpMatcher():
+    def __init__(self):
+        self.d = 256
+        self.tags = {1: "Artes",
+                     2: "Ciencias",
+                     3: "Ciencias Agrarias",
+                     4: "Ciencias Economicas",
+                     5: "Ciencias Humanas",
+                     6: "Derecho, Ciencias Políticas y Sociales",
+                     7: "Enfermeria",
+                     8: "Ingenieria",
+                     9: "Medicina",
+                     10: "Medicina Veterinaria y de Zootecnia",
+                     11: "Odontologia"}
+        self.primeFactor = 101
+        pass
+
+    def polyHash(self, key, x, primeFactor=31):
+        initHash = 0
+        for i in range(len(key)-1):
+            initHash = (initHash*x + ord(key[i])) % primeFactor
+        return initHash
+
+    def search(self, pattern, baseText, primeFactor=31):
+        M = len(pattern)
+        N = len(baseText)
+        pHashVal = 0
+        tHashVal = 0
+        primeFactor = primeFactor
+        x = 34
+        pHashVal = self.polyHash(pattern, x, primeFactor)
+
+        for j in range(N-M):
+            chunk = baseText[j:j+M]
+            tHashVal = self.polyHash(chunk, x, primeFactor)
+
+            if pHashVal != tHashVal:
+                continue
+
+            if pattern == chunk:
+                return True
+
+        return False
+
+    def compareToTags(self, query):
+        similarTags = []
+        for (key, value) in self.tags.items():
+            tagExists = self.search(
+                query.lower(), value.lower(), self.primeFactor)
+            if tagExists == True:
+                similarTags.append(value)
+
+        return similarTags
