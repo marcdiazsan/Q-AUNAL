@@ -193,22 +193,16 @@ def likeComentario(com_id):
     db.session.commit()
     return redirect(url_for('pregunta', preg_id=comentario.pregunta_id))
 
-@app.route('/sobre', methods=['GET'])
-def sobre():
-    return "QA UNAL"
+@app.route('/busqueda', methods=['GET'])
+def busqueda():
+    
+    return "Busqueda"
 
 
 @ app.route('/cerrar_sesion', methods=['GET', 'POST'])
 def cerrarSesion():
     logout_user()
     return redirect(url_for('sobre'))
-
-
-@ app.route('/cuenta', methods=['GET', 'POST'])
-@login_required
-def miCuenta():
-    return render_template("miCuenta.html")
-
 
 @app.route('/usuario/preguntas')
 def misPreguntas():
