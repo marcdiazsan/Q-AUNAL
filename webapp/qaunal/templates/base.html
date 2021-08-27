@@ -1,16 +1,26 @@
 <!DOCTYPE html>
 <html>
-
-<head>
+  <head>
     <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
     <!-- CSS propio -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}" type="text/css">
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='main.css') }}"
+      type="text/css"
+    />
 
     {% if titulo %}
     <title>Q&A UNAL - {{ titulo }}</title>
@@ -18,110 +28,131 @@
     <title>Q&A UNAL</title>
     {% endif %}
     <style>
-        body {
-            background-image: url("{{ url_for('static', filename='img/FondoTest.jpg') }}");
-            background-attachment: fixed; /*Hace que la imagen quede fija y no se mueva con el contenedor*/
-            background-repeat: no-repeat;
-            background-size: cover;
-        }
+      body {
+        background-image: url("{{ url_for('static', filename='img/FondoTest.jpg') }}");
+        background-attachment: fixed; /*Hace que la imagen quede fija y no se mueva con el contenedor*/
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
     </style>
-</head>
+  </head>
 
-<body>
+  <body>
     <header class="site-header">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <a class="navbar-brand" href="{{ url_for('dashboardPrincipal') }}">Q&A UNAL</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="{{ url_for('dashboardPrincipal') }}">Inicio
-                           <span class="sr-only">(current)</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('nuevaPregunta') }}">Nueva Pregunta</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('misPreguntas') }}">Mis Preguntas</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('sobre') }}">Sobre</a>
-                    </li>
-                </ul>
-                {% if current_user.is_authenticated %}
-                <ul class="navbar-nav ml-auto mr-2">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown"
-                            aria-haspopup="true" aria-expanded="false">
-                            Tu cuenta
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <a class="dropdown-item" href="{{ url_for('miCuenta') }}">Mi Cuenta</a>
-                            <a class="dropdown-item" href="{{ url_for('cerrarSesion') }}">Cerrar Sesion</a>
-                        </div>
-                    </li>
-                </ul>
-                {% else %}
-                <ul class="navbar-nav ml-auto mr-2">
-                    <li class="nav-item">
-                        <a class="nav-item nav-link" href="{{ url_for('iniciarSesion') }}">Iniciar Sesión</a>
-                    </li>
-                </ul>
-                {% endif %}
-                <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
-                </form>
-            </div>
-        </nav>
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="{{ url_for('dashboardPrincipal') }}"
+          >Q&A UNAL</a
+        >
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="{{ url_for('dashboardPrincipal') }}"
+                >Inicio
+                <span class="sr-only">(current)</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('nuevaPregunta') }}"
+                >Nueva Pregunta</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('misPreguntas') }}"
+                >Mis Preguntas</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Buscar</a>
+            </li>
+          </ul>
+          {% if current_user.is_authenticated %}
+          <ul class="navbar-nav ml-auto mr-2">
+            <li class="nav-item">
+              <a class="nav-item nav-link" href="{{ url_for('cerrarSesion') }}"
+                >Cerrar Sesion</a
+              >
+            </li>
+          </ul>
+          {% else %}
+          <ul class="navbar-nav ml-auto mr-2">
+            <li class="nav-item">
+              <a class="nav-item nav-link" href="{{ url_for('iniciarSesion') }}"
+                >Iniciar Sesión</a
+              >
+            </li>
+          </ul>
+          {% endif %}
+        </div>
+      </nav>
     </header>
     <main role="main" class="container-fluid">
-        <div class="row">
-            <div class="col-md-3 ">
-                <div class="content-section" id="aside">
-                    <section class="main-logo">
-                        <img src="{{ url_for('static', filename='img/logo.png') }}" alt="">
-                    </section>
-                    <section class="main-buttons">
-                        <a href="{{ url_for('nuevaPregunta') }}" class="btn btn-dark btn-lg active" role="button" aria-pressed="true">Preguntar</a>
-                        <a href="#" class="btn btn-dark btn-lg active" role="button" aria-pressed="true">Consultar</a>
-                    </section>
-                    <section class="main-text">
-                        <p>Todas las respuestas para la comunidad UN</p>
-                    </section>
-                </div>
-            </div>
-            <div class="col-md-9">
-                {% with mensajes = get_flashed_messages(with_categories = True) %}
-                    {% if mensajes %}
-                        {% for (categoria, mensaje) in mensajes %}
-                            <div class="alert alert-{{categoria}}">
-                                {{ mensaje }}
-                            </div>
-                        {% endfor %}
-                    {% endif %}
-                {% endwith %}
-                {% block content %}{% endblock %}
-            </div>
+      <div class="row">
+        <div class="col-md-3">
+          <div class="content-section" id="aside">
+            <section class="main-logo">
+              <img
+                src="{{ url_for('static', filename='img/logo.png') }}"
+                alt=""
+              />
+            </section>
+            <section class="main-buttons">
+              <a
+                href="{{ url_for('nuevaPregunta') }}"
+                class="btn btn-dark btn-lg active"
+                role="button"
+                aria-pressed="true"
+                >Preguntar</a
+              >
+              <a
+                href="#"
+                class="btn btn-dark btn-lg active"
+                role="button"
+                aria-pressed="true"
+                >Buscar</a
+              >
+            </section>
+            <section class="main-text">
+              <p>Todas las respuestas para la comunidad UN</p>
+            </section>
+          </div>
         </div>
+        <div class="col-md-9">
+          {% with mensajes = get_flashed_messages(with_categories = True) %} {%
+          if mensajes %} {% for (categoria, mensaje) in mensajes %}
+          <div class="alert alert-{{categoria}}">{{ mensaje }}</div>
+          {% endfor %} {% endif %} {% endwith %} {% block content %}{% endblock
+          %}
+        </div>
+      </div>
     </main>
-
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
-        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"
-        integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF"
-        crossorigin="anonymous"></script>
-</body>
-
+    <script
+      src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+      integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"
+      integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF"
+      crossorigin="anonymous"
+    ></script>
+  </body>
 </html>
