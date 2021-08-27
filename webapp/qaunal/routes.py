@@ -2,7 +2,7 @@ from qaunal.estructuras import SLL_Stack
 from flask import jsonify, request, render_template, url_for, flash, redirect, abort
 from qaunal import app, db, bcrypt
 from qaunal.models import User, Pregunta, Comentario
-from qaunal.forms import RegistrationForm, LoginForm, CreateQuestionForm, CreateCommentForm, BusquedaTag, BusquedaTexto
+from qaunal.forms import RegistrationForm, LoginForm, CreateQuestionForm, CreateCommentForm, BusquedaTag, BusquedaTexto, FiltroFechas
 from flask_login import login_user, current_user, logout_user, login_required
 from qaunal.estructuras import SLL_Stack, RabinKarpMatcher
 
@@ -197,6 +197,7 @@ def likeComentario(com_id):
 def busqueda():
     formaTexto = BusquedaTexto()
     formaEtiqueta = BusquedaTag()
+    filtroFechas = FiltroFechas()
     # Busqueda por texto
     if formaTexto.validate_on_submit():
         query = formaTexto.textoBusqueda.data
@@ -225,9 +226,11 @@ def busqueda():
             preguntas = Pregunta.query.filter(Pregunta.etiquetas.contains(
                 query)).paginate(page=page, per_page=10)
             return render_template('resultados.html', titulo='Resultados Busqueda', preguntas=preguntas)
-        
+    if filtroFechas.validate_on_submit():
+        # Aqui va la funcionalidad de arbol que implementen
+        return "Yo deje mi arbolito de busqueda aqui"
     
-    return render_template('buscar.html', titulo='Buscar', formaTexto=formaTexto, formaEtiqueta=formaEtiqueta)
+    return render_template('buscar.html', titulo='Buscar', formaTexto=formaTexto, formaEtiqueta=formaEtiqueta, filtroFechas=filtroFechas)
     
 
 @ app.route('/cerrar_sesion', methods=['GET', 'POST'])

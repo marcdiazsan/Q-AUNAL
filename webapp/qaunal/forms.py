@@ -1,8 +1,10 @@
 from flask.app import Flask
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, SelectField, TextAreaField
+from wtforms.fields.core import DateField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from qaunal.models import User
+from wtforms.fields.html5 import DateField
 
 
 class RegistrationForm(FlaskForm):
@@ -68,4 +70,9 @@ class BusquedaTexto(FlaskForm):
 
 class BusquedaTag(FlaskForm):
     textoEtiqueta = StringField('Busqueda', validators=[Length(min=1)])
+    submit = SubmitField('Filtrar')
+
+class FiltroFechas(FlaskForm):
+    fechaInicio = DateField('Inicio', format='%Y-%m-%d')
+    fechaFin = DateField('Fin', format='%Y-%m-%d')
     submit = SubmitField('Filtrar')
