@@ -4,7 +4,9 @@ from qaunal import app, db, bcrypt
 from qaunal.models import User, Pregunta, Comentario
 from qaunal.forms import RegistrationForm, LoginForm, CreateQuestionForm, CreateCommentForm, BusquedaTag, BusquedaTexto, FiltroFechas
 from flask_login import login_user, current_user, logout_user, login_required
-from qaunal.estructuras import SLL_Stack, RabinKarpMatcher
+from qaunal.estructuras import SLL_Stack, RabinKarpMatcher, AVLTree
+import datetime
+from datetime import datetime
 
 @app.route('/')
 def dashboardPrincipal():
@@ -227,8 +229,15 @@ def busqueda():
                 query)).paginate(page=page, per_page=10)
             return render_template('resultados.html', titulo='Resultados Busqueda', preguntas=preguntas)
     if filtroFechas.validate_on_submit():
-        # Aqui va la funcionalidad de arbol que implementen
-        return "Yo deje mi arbolito de busqueda aqui"
+        AVLTreeFilter = AVLTree()
+        my_time = datetime.min.time()
+        fechaInicio = datetime.combine(filtroFechas.fechaInicio.data, my_time)
+        fechaFin = datetime.combine(filtroFechas.fechaFin.data, my_time)
+        preguntas = Pregunta.query.all()
+        for pregunta in preguntas:
+            AVLTreeFilter.insert(pregunta)
+        preguntas = AVLTreeFilter.rangeSearch(fechaInicio, fechaFin, [])
+        return render_template('resultadosFiltro.html', titulo='Resultados Filtro', preguntas=preguntas)
     
     return render_template('buscar.html', titulo='Buscar', formaTexto=formaTexto, formaEtiqueta=formaEtiqueta, filtroFechas=filtroFechas)
     
