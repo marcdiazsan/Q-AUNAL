@@ -177,19 +177,6 @@
                   {% else %} {{ forma.tema(class="form-control form-control-lg")
                   }} {% endif %}
                 </div>
-
-                <div class="form-group">
-                  {{ forma.estatus.label(class="form-control-label") }} {% if
-                  forma.estatus.errors %} {{ forma.estatus(class="form-control
-                  form-control-lg is-invalid") }}
-                  <div class="invalid-feedback">
-                    {% for error in forma.estatus.errors %}
-                    <span>{{ error }}</span>
-                    {% endfor %}
-                  </div>
-                  {% else %} {{ forma.estatus(class="form-control
-                  form-control-lg") }} {% endif %}
-                </div>
               </fieldset>
 
               <div class="form-group">
