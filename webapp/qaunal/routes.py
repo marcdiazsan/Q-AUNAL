@@ -57,7 +57,9 @@ def iniciarSesion():
             flash('Bienvenido de vuelta!', 'success')
             return redirect(next_page) if next_page else redirect(url_for('dashboardPrincipal'))
         else:
+            print("error")
             flash('Correo o contraseña errados. Revise los datos', 'danger')
+            return render_template('iniciarSesion.html', forma=forma, titulo='Inicio Sesión')
     return render_template('iniciarSesion.html', forma=forma, titulo='Inicio Sesión')
 
 
@@ -247,7 +249,9 @@ def cerrarSesion():
     logout_user()       
     return redirect(url_for('iniciarSesion'))
 
+
 @app.route('/usuario/preguntas')
+@login_required
 def misPreguntas():
     page = request.args.get('page', default=1, type=int)
     user = User.query.filter_by(id=current_user.id).first_or_404()

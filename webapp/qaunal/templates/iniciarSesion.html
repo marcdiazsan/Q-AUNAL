@@ -59,6 +59,12 @@
     </header>
     <main role="main" class="container">
       {% block content %}
+      <div class="col-md-10">
+        {% with mensajes = get_flashed_messages(with_categories = True) %} {%
+        if mensajes %} {% for (categoria, mensaje) in mensajes %}
+        <div class="alert alert-{{categoria}}">{{ mensaje }}</div>
+        {% endfor %} {% endif %} {% endwith %}
+      </div>
       <div class="row">
         <div class="col col-lg-6 col-md-8 col-12 offset-md-2 offset-lg-3">
           <div class="content-section" id="login-content">
