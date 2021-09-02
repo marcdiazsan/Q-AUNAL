@@ -1,9 +1,13 @@
 class Node():
-    def __init__(self, key=None, parent=None):
+    def __init__(self, key=None, parent=None,item=None):
         self.key = key
+        self.item=item
+        self.com=[]
         self.left = None 
         self.right = None
         self.parent = parent
+    def getItem(self):
+        return self.com
 
 class BST:
     def __init__(self, key=None, parent=None):
@@ -30,26 +34,31 @@ class BST:
         if x < root.key :
             root.left.rangeSearch(x, y, vals)
         if x <= root.key and y >= root.key:
-            vals.append(root.key)
+            items=root.getItem()
+            for i in items:
+                vals.append(i)
         if y > root.key:
             root.right.rangeSearch(x,y, vals)
         return vals
 
-    def insert(self, key):
+    def insert(self, key,item):
         tree = self.node
         
-        newnode = Node(key, self.node)
+        newnode = Node(key, self.node,item)
         
         if not self.node:
             self.node = newnode 
             self.node.left = BST() 
             self.node.right = BST()
-        
+            self.node.com.append(item)
+
         elif key < tree.key:
-            self.node.left.insert(key)
+            self.node.left.insert(key,item)
 
         elif key > tree.key:
-            self.node.right.insert(key)
+            self.node.right.insert(key,item)
+        elif key==tree.key:
+            self.node.com.append(item)
             
 
     def get_min(self):
@@ -71,6 +80,7 @@ class BST:
             else:
                 current = next_node
         return current.key
+#Hay N nodos de preguntas correspondientes a cada fecha, pero cada no puede contener M preguntas realizadas al tiempo
 
     def inorder(self, vals):
         if not self.node:
@@ -119,8 +129,8 @@ class BST:
         else: 
             return 
 
-a = BST()
+'''a = BST()
 inlist = [7, 5, 2, 6, 3, 4, 1, 8, 9, 0]
 for i in inlist:
     a.insert(i)
-print(a.rangeSearch(3,7,[]))
+print(a.rangeSearch(3,7,[]))'''

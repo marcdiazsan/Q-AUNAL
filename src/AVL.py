@@ -1,8 +1,12 @@
 class Node():
-    def __init__(self, key):
+    def __init__(self, key,item):
         self.key = key
+        self.item=item
+        self.com = []
         self.left = None 
-        self.right = None 
+        self.right = None
+    def getItem(self):
+        return self.com
 
 class AVLTree():
     def __init__(self, *args):
@@ -11,7 +15,7 @@ class AVLTree():
         self.balance = 0; 
         
         if len(args) == 1: 
-            for i in args[0]: 
+            for i in args[3]:
                 self.insert(i)
                 
     def height(self):
@@ -42,7 +46,9 @@ class AVLTree():
         if x < root.key :
             root.left.rangeSearch(x, y, vals)
         if x <= root.key and y >= root.key:
-            vals.append(root.key)
+            items=root.getItem()
+            for i in items:
+                vals.append(i)
         if y > root.key:
             root.right.rangeSearch(x,y, vals)
         return vals
@@ -50,21 +56,24 @@ class AVLTree():
     def is_leaf(self):
         return self.height == 0 
     
-    def insert(self, key):
+    def insert(self, key,item):
         tree = self.node
         
-        newnode = Node(key)
+        newnode = Node(key,item)
         
         if tree == None:
             self.node = newnode 
             self.node.left = AVLTree() 
             self.node.right = AVLTree()
+            self.node.com.append(item)
         
         elif key < tree.key: 
-            self.node.left.insert(key)
+            self.node.left.insert(key,item)
             
         elif key > tree.key: 
-            self.node.right.insert(key)
+            self.node.right.insert(key,item)
+        elif key==tree.key:
+            self.node.com.append(item)
         
         self.rebalance() 
         
@@ -214,8 +223,8 @@ class AVLTree():
                 self.node.left.display(level + 1, '<')
             if self.node.left != None:
                 self.node.right.display(level + 1, '>')
-a = AVLTree()
+'''a = AVLTree()
 inlist = [7, 5, 2, 6, 3, 4, 1, 8, 9, 0]
 for i in inlist:
     a.insert(i)
-print(a.rangeSearch(2,9,[]))
+print(a.rangeSearch(2,9,[]))'''
