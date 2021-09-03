@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="content-section ">
+    <form method="POST" action="">
+        {{ forma.hidden_tag() }}
+        <fieldset class="form-group">
+            <legend class="border-bottom border-secondary mb-4">¿Sabes la respuesta?</legend>
+            <div class="form-group">
+                {{ forma.contenido.label(class="form-control-label") }}
+                {% if forma.contenido.errors %}
+                {{ forma.contenido(class="form-control form-control-lg is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in forma.contenido.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ forma.contenido(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+
+        </fieldset>
+
+        <div class="form-group">
+            {{ forma.submit(class="btn btn-outline-info") }}
+        </div>
+
+    </form>
+</div>
+{% endblock content %}
