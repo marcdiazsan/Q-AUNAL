@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+    <!-- CSS propio -->
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='main.css') }}"
+      type="text/css"
+    />
+
+    {% if titulo %}
+    <title>Q&A UNAL - {{ titulo }}</title>
+    {% else %}
+    <title>Q&A UNAL</title>
+    {% endif %}
+    <style>
+      body {
+        background-image: linear-gradient(
+            0deg,
+            rgba(0, 0, 0, 0.6) 0%,
+            rgba(139, 137, 137, 0.4) 50%,
+            rgba(255, 255, 255, 0.1) 100%
+          ),
+          url("{{ url_for('static', filename='img/FondoTest.jpg') }}");
+        background-attachment: fixed;
+        /*Hace que la imagen quede fija y no se mueva con el contenedor*/
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
+    </style>
+  </head>
+
+  <body>
+    <header class="site-header">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark" id="navbar-t">
+        <a class="navbar-brand" href="{{ url_for('dashboardPrincipal') }}">
+          <img
+            src="{{ url_for('static', filename='img/logo.png') }}"
+            alt=""
+            class="nav-logo-login"
+          />
+          Q&A UNAL
+        </a>
+      </nav>
+    </header>
+    <main role="main" class="container">
+      {% block content %}
+      <div class="row">
+        <div class="col col-lg-6 col-md-8 col-12 offset-md-2 offset-lg-3">
+          <div class="content-section" id="login-content">
+            <form method="POST" action="">
+              {{ forma.hidden_tag() }}
+              <fieldset class="form-group">
+                <legend class="border-bottom mb-3">
+                  Regístrate a Q&A UNAL
+                </legend>
+                <div class="form-group">
+                  {{ forma.nombre.label(class="form-control-label") }} {% if
+                  forma.nombre.errors %} {{ forma.nombre(class="form-control
+                  form-control-lg is-invalid") }}
+                  <div class="invalid-feedback">
+                    {% for error in forma.nombre.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                  </div>
+                  {% else %} {{ forma.nombre(class="form-control
+                  form-control-lg") }} {% endif %}
+                </div>
+
+                <div class="form-group">
+                  {{ forma.email.label(class="form-control-label") }} {% if
+                  forma.email.errors %} {{ forma.email(class="form-control
+                  form-control-lg is-invalid") }}
+                  <div class="invalid-feedback">
+                    {% for error in forma.email.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                  </div>
+                  {% else %} {{ forma.email(class="form-control
+                  form-control-lg") }} {% endif %}
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    {{ forma.password.label(class="form-control-label") }} {% if
+                    forma.password.errors %} {{
+                    forma.password(class="form-control form-control-lg
+                    is-invalid") }}
+                    <div class="invalid-feedback">
+                      {% for error in forma.password.errors %}
+                      <span>{{ error }}</span>
+                      {% endfor %}
+                    </div>
+                    {% else %} {{ forma.password(class="form-control
+                    form-control-lg") }} {% endif %}
+                  </div>
+                  <div class="form-group col-md-6">
+                    {{
+                    forma.password_confirmation.label(class="form-control-label")
+                    }} {% if forma.password_confirmation.errors %} {{
+                    forma.password(class="form-control form-control-lg
+                    is-invalid") }}
+                    <div class="invalid-feedback">
+                      {% for error in forma.password_confirmation.errors %}
+                      <span>{{ error }}</span>
+                      {% endfor %}
+                    </div>
+                    {% else %} {{
+                    forma.password_confirmation(class="form-control
+                    form-control-lg") }} {% endif %}
+                  </div>
+                </div>
+              </fieldset>
+
+              <div class="form-group">
+                {{ forma.submit(class="btn btn-outline-info") }}
+              </div>
+            </form>
+            <div class="border-top pt-3">
+              <small class="text-muted">
+                Si ya tienes una cuenta, mejor
+                <a class="ml-2" href="{{ url_for('iniciarSesion') }}"
+                  >Inicia Sesion</a
+                >
+              </small>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endblock content %}
+      <footer>
+        <div class="container" id="footer-login">
+          <h5>Todas las respuestas para la comunidad UN</h5>
+        </div>
+      </footer>
+    </main>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script
+      src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+      integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"
+      integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
