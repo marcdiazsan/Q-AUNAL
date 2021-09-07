@@ -1,5 +1,5 @@
 from qaunal.estructuras import SLL_Stack
-from flask import jsonify, request, render_template, url_for, flash, redirect, abort
+from flask import jsonify, request, render_template, url_for, flash, redirect, abort, request 
 from qaunal import app, db, bcrypt
 from qaunal.models import User, Pregunta, Comentario
 from qaunal.forms import RegistrationForm, LoginForm, CreateQuestionForm, CreateCommentForm, BusquedaTag, BusquedaTexto, FiltroFechas
@@ -67,11 +67,12 @@ def iniciarSesion():
 @login_required
 def nuevaPregunta():
     forma = CreateQuestionForm()
-    if forma.validate_on_submit():
-        status = True if forma.estatus.data == 'Resuelta' else False
+    if forma.validate_on_submit() or request.method=='POST':
+        status = False
         pregunta = Pregunta(titulo=forma.titulo.data, contenido=forma.contenido.data, etiquetas=forma.tema.data, resuelta=status, likes=0, user_id=current_user.id)
         db.session.add(pregunta)
         db.session.commit()
+        print(pregunta.user_id, current_user.id)
         flash('Tu pregunta se ha creado!', 'success')
         return redirect(url_for('dashboardPrincipal'))
     return render_template('nuevaPregunta.html', forma=forma, titulo='Nueva Pregunta', legenda='¿Qué duda tienes?')
@@ -92,7 +93,7 @@ def pregunta(preg_id):
     while current:
         current = current.getNext()
         size += 1
-    return render_template('pregunta.html', titulo=Pregunta.titulo, pregunta=pregunta, comentarios=comentariosPregunta, size=size)
+    return render_template('pregunta.html', titulo="Pregunta", pregunta=pregunta, comentarios=comentariosPregunta, size=size)
 
 
 @app.route('/preguntas/<int:preg_id>/actualizar', methods=['GET', 'POST'])
@@ -102,13 +103,14 @@ def actualizarPregunta(preg_id):
     if pregunta.autor != current_user:
         abort(403)
     forma = CreateQuestionForm()
-    if forma.validate_on_submit():
+    if forma.validate_on_submit() or request.method=='POST':
         pregunta.titulo = forma.titulo.data
         pregunta.contenido = forma.contenido.data
         pregunta.etiquetas = forma.tema.data
-        pregunta.resuelta = True if forma.estatus.data == 'Resuelta' else False
+        pregunta.resuelta = False
         db.session.commit()
         flash('Actualizamos tu pregunta', 'success')
+        print("Updating")
         return redirect(url_for('pregunta', preg_id=pregunta.id))
     elif request.method == 'GET':
     # Llenar la forma con los datos actuales
@@ -255,6 +257,9 @@ def cerrarSesion():
 def misPreguntas():
     page = request.args.get('page', default=1, type=int)
     user = User.query.filter_by(id=current_user.id).first_or_404()
-    preguntas = Pregunta.query.filter_by(autor=user).paginate(page=page, per_page=10)
+    preguntas = Pregunta.query.filter_by(user_id=user.id)\
+        .order_by(Pregunta.date_created.desc())\
+        .paginate(page=page, per_page=5)
+    print(preguntas)
     print(preguntas)
     return render_template('userQuestions.html', titulo='Inicio', preguntas=preguntas)
